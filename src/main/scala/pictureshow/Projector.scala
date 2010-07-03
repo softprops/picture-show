@@ -13,7 +13,6 @@ class Projector(path: String) extends Resolver(path) with Config with IO with Ma
 object Server {
   import org.eclipse.jetty.server.handler.{ResourceHandler, ContextHandler}
   def main(args: Array[String]) {
-    val server = unfiltered.server.Http(3000)  
     def assetHandler(contextPath: String, base: String) = {
       val files = new ResourceHandler
       files.setResourceBase(base match {
@@ -27,16 +26,15 @@ object Server {
       context
     }
     
-    server.handler(c => assetHandler("/assets", "."))
-    server.handler(c => assetHandler("/js", getClass.getResource("js/show.js").toString))
-    server.handler(c => assetHandler("/css", getClass.getResource("css/show.css").toString))
-    
-    server.filter(new Projector(args match {
-      case Array(p) => p
-      case _ => "show"
-    }))
-    
-    server.start
+    unfiltered.server.Http(3000)  
+      .handler(c => assetHandler("/assets", "."))
+      .handler(c => assetHandler("/js", getClass.getResource("js/show.js").toString))
+      .handler(c => assetHandler("/css", getClass.getResource("css/show.css").toString))
+      .filter(new Projector(args match {
+        case Array(p) => p
+        case _ => "show"
+      }))
+      .start
   }
 }
 
@@ -115,9 +113,7 @@ trait Markup { self: IO with Resolver with Config =>
     val slides = content.split("!SLIDE")
     (new xml.NodeBuffer /: slides)((nodes, s) => {
       val lines = s.split("\n")
-      val meta = List("")
-      val transition = "none"
-      nodes &+ (<div class="content" id={"slide-%s" format nodes.size} rel={"transition-%s" format transition}>
+      nodes &+ (<div class="content" id={"slide-%s" format nodes.size}>
        { parse(s) }
       </div>)
     })
@@ -140,7 +136,7 @@ trait IO { self: Resolver =>
 object Files { //self: Resolver =>
   import java.io.{File => JFile}
   /** build path from parts */
-  def path(parts: Seq[String]): String = parts.mkString(System.getProperty("file.separator"))
+  def path(parts: Seq[String]): String = parts map { _.trim } mkString(System.getProperty("file.separator"))
   /** creator from path */
   def apply(path: String): JFile  = new JFile(path)
   /** creator from parts */
