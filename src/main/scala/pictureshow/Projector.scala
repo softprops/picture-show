@@ -39,17 +39,22 @@ trait Config { self: Resolver =>
 
 trait Templates { self: Config =>
   /** render stylesheet links */
-  def css(sheets: Seq[String]) = (new xml.NodeBuffer  /: sheets) ((m, s) => {
-    m &+ <link rel="stylesheet" type="text/css" href={s} />
-  })
+  def css(sheets: Seq[String]) = collectionOf(sheets) { s =>
+    <link rel="stylesheet" type="text/css" href={s} />
+  }
   /** render script tags */
-  def js(scripts: Seq[String]) = (new xml.NodeBuffer  /: scripts) ((m, s) => {
-    m &+ <script type="text/javascript" src={s} ></script>
-  })
+  def js(scripts: Seq[String]) = collectionOf(scripts) { s => 
+    <script type="text/javascript" src={s} ></script>
+  }
   /** render the show */
   def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
   /** render the show with custom header assets */
   def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = default(heads, slides)
+  /** builds a collection of nodes */
+  private def collectionOf(c: Seq[String])(f: String => xml.Node) =
+    (new xml.NodeBuffer  /: c) ((m, e) => {
+      m &+ f(e)
+    })
   /** default template */
   private def default(heads: xml.NodeBuffer, slides: xml.NodeBuffer) = 
     <html>
@@ -74,7 +79,7 @@ trait Resolver {
   def loadPath = "show"
 }
 
-trait Markup { self: IO with Config =>
+trait Markup { self: IO with Resolver with Config =>
   import com.tristanhunt.knockoff.DefaultDiscounter._
   
   def combineJs =  loadJs(resourceBase) map { "assets/" + _ }
