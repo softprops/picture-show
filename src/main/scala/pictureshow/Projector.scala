@@ -4,7 +4,7 @@ import unfiltered._
 import unfiltered.request._
 import unfiltered.response._
 
-class Projector extends Config with Resolver with IO with Markup with Templates with unfiltered.Plan {
+class Projector(path: String) extends Resolver(path) with Config with IO with Markup with Templates with unfiltered.Plan {
   def filter = {
     case GET(Path("/", _)) => ResponseString(render(css(combineCss), mkSlides).toString)
   }
@@ -13,18 +13,28 @@ class Projector extends Config with Resolver with IO with Markup with Templates 
 object Server {
   import org.eclipse.jetty.server.handler.{ResourceHandler, ContextHandler}
   def main(args: Array[String]) {
-    
     val server = unfiltered.server.Http(3000)  
+    def assetHandler(contextPath: String, base: String) = {
+      val files = new ResourceHandler
+      files.setResourceBase(base match {
+        case "." => base
+        case base => base.toString.substring(0, base.lastIndexOf("/"))
+      })
+      val context = new ContextHandler
+      context.setContextPath(contextPath)
+      context.setAliases(true)
+      context.setHandler(files)
+      context
+    }
     
-    val files = new ResourceHandler
-    files.setResourceBase(".")
-    val context = new ContextHandler
-    context.setContextPath("/assets")
-    context.setAliases(true)
-    context.setHandler(files)
+    server.handler(c => assetHandler("/assets", "."))
+    server.handler(c => assetHandler("/js", getClass.getResource("js/show.js").toString))
+    server.handler(c => assetHandler("/css", getClass.getResource("css/show.css").toString))
     
-    server.handler(c => context)
-    server.filter(new Projector)
+    server.filter(new Projector(args match {
+      case Array(p) => p
+      case _ => "show"
+    }))
     
     server.start
   }
@@ -32,37 +42,41 @@ object Server {
 
 /** todo read from config file */
 trait Config { self: Resolver =>
+  /** name of config file */
+  def configName = "conf.js"
+  /** list of sections to render */
   def sections = "test" :: Nil
+  /** */
   def resourceBase = "."
+  /** title of show */
   def showTitle = "picture show"
+  private val src = Files(loadPath :: configName :: Nil)
 }
 
 trait Templates { self: Config =>
   /** render stylesheet links */
   def css(sheets: Seq[String]) = collectionOf(sheets) { s =>
-    <link rel="stylesheet" type="text/css" href={s} />
+    <link rel="stylesheet" type="text/css" href={s}/>
   }
   /** render script tags */
   def js(scripts: Seq[String]) = collectionOf(scripts) { s => 
-    <script type="text/javascript" src={s} ></script>
+    <script type="text/javascript" src={s}></script>
   }
   /** render the show */
   def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
-  /** render the show with custom header assets */
+  /** render the show with custom header assets (css, js, ...) */
   def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = default(heads, slides)
   /** builds a collection of nodes */
   private def collectionOf(c: Seq[String])(f: String => xml.Node) =
-    (new xml.NodeBuffer  /: c) ((m, e) => {
-      m &+ f(e)
-    })
+    (new xml.NodeBuffer  /: c) ((b, e) => { b &+ f(e) })
   /** default template */
   private def default(heads: xml.NodeBuffer, slides: xml.NodeBuffer) = 
     <html>
       <head>
         <title>{ showTitle }</title>
-        <link rel="stylesheet" type="text/css" href="assets/show/css/show.css" />
-        <script type="text/javascript" src="assets/show/js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="assets/show/js/show.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/show.css" />
+        <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="js/show.js"></script>
         { heads }
       </head>
       <body>
@@ -75,8 +89,8 @@ trait Templates { self: Config =>
     </html>
 }
 
-trait Resolver {
-  def loadPath = "show"
+class Resolver(path: String) {
+  def loadPath = path
 }
 
 trait Markup { self: IO with Resolver with Config =>
@@ -114,18 +128,23 @@ trait Markup { self: IO with Resolver with Config =>
 
 trait IO { self: Resolver =>
   /** s/sort/sortWith in scala 2.8 */
-  def loadContent(section: String) =
-    Files.ls(sectionPath(section)) { _.endsWith(".md") } sort(_<_)
-  def loadJs(section: String) =
-    Files.ls(sectionPath(section)) { _.endsWith(".js") }
-  def loadCss(section: String) =
-    Files.ls(sectionPath(section)) { _.endsWith(".css") }
-  private def sectionPath(sec: String) = (loadPath :: sec :: Nil) mkString("/")
+  def loadContent(section: String) = paths(section, ".md") sort(_<_)
+  def loadJs(section: String) = paths(section, ".js")
+  def loadCss(section: String) = paths(section, ".css")
+  private def paths(section: String, ext: String): List[String] = 
+    paths(section) { _.endsWith(ext) }
+  private def paths(section: String)(f: String => Boolean) = 
+    Files.ls(Files.path(loadPath :: section :: Nil))(f)
 }
 
 object Files { //self: Resolver =>
-  /** creator */
-  def apply(path: String) = new java.io.File(path)
+  import java.io.{File => JFile}
+  /** build path from parts */
+  def path(parts: Seq[String]): String = parts.mkString(System.getProperty("file.separator"))
+  /** creator from path */
+  def apply(path: String): JFile  = new JFile(path)
+  /** creator from parts */
+  def apply(parts: Seq[String]): JFile = apply(path(parts))
   /** recursivly lists file paths */ 
   def ls(path: String)(f: String => Boolean): List[String] = {
     val root = new java.io.File(path)
