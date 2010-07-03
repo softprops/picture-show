@@ -1,0 +1,47 @@
+ * { margin:0; padding:0; }
+ 
+  body { 
+    font-family:Helvetica; 
+    font-weight:bold; 
+    font-size:94px; 
+  }
+  
+  #slides {
+    overflow: hidden;
+  }
+
+  #track {
+    width: 1000000px;
+    overflow: hidden;
+  } 
+
+  #track div {
+    float: left;
+    overflow: hidden;
+  }
+  
+  .sub {
+    font-size:24px;
+  }
+  
+  
+  ul, .support {
+    font-size:34px;
+  }
+  
+  ul li, ul {
+  }
+  
+  .slide {
+    border-bottom:1px solid #eee;
+    margin-bottom:2em;
+    top:50%;
+  }
+  
+  pre { font-size:34px; text-align:left; font-family:monaco, monospace; line-height:.75em;}
+  strong { color:#FF1385; }
+  .ex { color:#12A0FF; }
+  .comment {color:#ccc;}
+  a:link, a:visited { color:#12A0FF; text-decoration:none; }
+  a:hover { color:#FF1385; }
+  ul {list-style:none;}

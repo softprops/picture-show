@@ -5,63 +5,60 @@ import unfiltered.request._
 import unfiltered.response._
 
 class Projector extends Config with Resolver with IO with Markup with Templates with unfiltered.Plan {
-  /** by default, use all sections */
-  def sections = "" :: Nil
-  
   def filter = {
-    case GET(Path("/", _)) => ResponseString(render(mkSlides).toString)
+    case GET(Path("/", _)) => ResponseString(render(css(combineCss), mkSlides).toString)
   }
 }
 
-object PictureShowServer extends Config {
-  import org.eclipse.jetty.server.{Server => JettyServer, Connector, Handler}
-  import org.eclipse.jetty.server.handler.{HandlerCollection, ResourceHandler, ContextHandler}
-  import org.eclipse.jetty.servlet.{FilterHolder, ServletContextHandler}
-  import org.eclipse.jetty.server.bio.SocketConnector
-  import org.eclipse.jetty.util.resource.Resource
-  val showURL = new java.io.File("show").toURI.toURL
-  println("resrcs " + showURL)
+object Server {
+  import org.eclipse.jetty.server.handler.{ResourceHandler, ContextHandler}
   def main(args: Array[String]) {
     
-    System.setProperty("org.eclipse.jetty.util.log.DEBUG", "true")
-    val server = unfiltered.server.Http(3000).filter(new Projector)
-      //.resources(getClass.getResource("js/show.js"))
-      //.resources(getClass.getResource("css/show.css"))
-    
-    // Let me make a context to handle the following images.
-    //val context = new ContextHandler
-    //context.setVirtualHosts(Array("images.localhost"));
-    // the resources are rooted at / in the above virtual host.
-    //context.setContextPath("/")
-    // set where the actual files are (may not be needed)
-    //context.setResourceBase(resourceBase)
+    val server = unfiltered.server.Http(3000)  
     
     val files = new ResourceHandler
     files.setResourceBase(".")
-    println("files " + files.getResourceBase)
-    //server.handlers.addHandler(new org.eclipse.jetty.handler.RequestLogHandler)
-    server.handler(c => files)
+    val context = new ContextHandler
+    context.setContextPath("/assets")
+    context.setAliases(true)
+    context.setHandler(files)
+    
+    server.handler(c => context)
+    server.filter(new Projector)
+    
     server.start
   }
 }
 
-trait Config {
-  def resourceBase = "show"
+/** todo read from config file */
+trait Config { self: Resolver =>
+  def sections = "test" :: Nil
+  def resourceBase = "."
   def showTitle = "picture show"
 }
 
 trait Templates { self: Config =>
-  
+  /** render stylesheet links */
+  def css(sheets: Seq[String]) = (new xml.NodeBuffer  /: sheets) ((m, s) => {
+    m &+ <link rel="stylesheet" type="text/css" href={s} />
+  })
+  /** render script tags */
+  def js(scripts: Seq[String]) = (new xml.NodeBuffer  /: scripts) ((m, s) => {
+    m &+ <script type="text/javascript" src={s} ></script>
+  })
   /** render the show */
-  def render(slides: xml.NodeBuffer) = default(slides)
-  
-  private def default(slides: xml.NodeBuffer) = 
+  def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
+  /** render the show with custom header assets */
+  def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = default(heads, slides)
+  /** default template */
+  private def default(heads: xml.NodeBuffer, slides: xml.NodeBuffer) = 
     <html>
       <head>
-        <title>{showTitle}</title>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-        <stylesheet type="text/css" href="css/show.css" />
-        <script type="text/javascript" src="js/show.js"></script>
+        <title>{ showTitle }</title>
+        <link rel="stylesheet" type="text/css" href="assets/show/css/show.css" />
+        <script type="text/javascript" src="assets/show/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="assets/show/js/show.js"></script>
+        { heads }
       </head>
       <body>
         <div id="slides">
@@ -74,26 +71,26 @@ trait Templates { self: Config =>
 }
 
 trait Resolver {
-  /** path to root of slides*/
-  def loadPath = ""
+  def loadPath = "show"
 }
 
-trait Markup { self: IO =>
+trait Markup { self: IO with Config =>
   import com.tristanhunt.knockoff.DefaultDiscounter._
   
+  def combineJs =  loadJs(resourceBase) map { "assets/" + _ }
+  def combineCss = loadCss(resourceBase) map { "assets/" + _ }
+  def combineHeads = combineJs ::: combineCss
+  
   def mkSlides = {
-    val sections = List(".")
     (new xml.NodeBuffer /: sections)((l, s) => {
-      val files = loadFiles(s)
-      println(files)
+      val files = loadContent(s)
       l &+ ((new scala.xml.NodeBuffer  /: files)((m, f) => {
-        m &+ md("show/" + f)
+        m &+ md(f)
       }))
     })
   }
   
   def md(fname: String) = {
-    println("fname %s" format fname)
     /** s/fromFile/fromPath in scala 2.8 */
     val content = scala.io.Source.fromFile(fname, "utf8").getLines.mkString("\n")
     val slides = content.split("!SLIDE")
@@ -107,26 +104,29 @@ trait Markup { self: IO =>
     })
   }
   
-  def parse(content: String) = toXHTML(knockoff(content)) 
+  def parse(content: String) = toXHTML(knockoff(content))
 }
 
 trait IO { self: Resolver =>
-  def loadFiles(section: String) = {
-    /** s/sort/sortWith in scala 2.8 */
-    Files.ls(section) { _.endsWith(".md") }.toList.sort(_<_)
-  }
+  /** s/sort/sortWith in scala 2.8 */
+  def loadContent(section: String) =
+    Files.ls(sectionPath(section)) { _.endsWith(".md") } sort(_<_)
+  def loadJs(section: String) =
+    Files.ls(sectionPath(section)) { _.endsWith(".js") }
+  def loadCss(section: String) =
+    Files.ls(sectionPath(section)) { _.endsWith(".css") }
+  private def sectionPath(sec: String) = (loadPath :: sec :: Nil) mkString("/")
 }
 
 object Files { //self: Resolver =>
  /** creator */
- def apply(path: String) = new java.io.File("show", path)
- /** lists file paths */
- def ls(path: String)(f: String => Boolean) = {
-   val sec = new java.io.File("show", path)
-   println(sec.list)
-   (sec.isDirectory match {
-     case true => sec.list.toSeq
-     case _ => sec.getAbsolutePath :: Nil
-   }).filter(f)
+ def apply(path: String) = new java.io.File(path)
+ /** recursivly lists file paths */ 
+ def ls(path: String)(f: String => Boolean): List[String] = {
+   val root = new java.io.File(path)
+   (root.isDirectory match {
+      case true => (List[String]() /: (root.listFiles.toList map { _.getPath })) ((s, p) => ls(p)(f) ::: s)
+      case _ => root.getPath :: Nil
+    }).filter(f)
  }
 }
