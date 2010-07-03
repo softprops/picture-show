@@ -1,4 +1,4 @@
-example
+# picture show *!*
 
 !SLIDE
 
@@ -11,10 +11,11 @@ example
 
 !SLIDE
 
-    // so here's some code
+    // functional what?
     (0 /: (1 to 10))(_+_)
 
 !SLIDE
 
+thanks
 ![test](assets/show/test/test.jpg "test")
 
