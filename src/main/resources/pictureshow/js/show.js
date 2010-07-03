@@ -55,19 +55,16 @@
 
      setSlideDimensions();
      showCurrentSlide();
-
    }
 
-
-   
    var move = function(e) {
      
      var DIRECTIONS = {
-       37: -1,     // ARROW LEFT
-       39: 1,      // ARROW RIGHT
-       32: 1,      // SPACE BAR
-       13: 1,      // RETURN
-       27: 'home', // ESCAPE
+       37: -1,     // >
+       39: 1,      // <
+       32: 1,      // _
+       13: 1,      // return
+       27: 'home', // esc
        left: -1,
        right: 1
      }
@@ -92,7 +89,6 @@
      }
    }
 
-
    function hideInstructions() {
      $('#instructions').slideUp(200);
    }
@@ -111,6 +107,6 @@
        $('.notes').show();
      }
 
-    // window.setTimeout(hideInstructions, 3000);
+     window.setTimeout(hideInstructions, 2000);
     });
    })(jQuery);

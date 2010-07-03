@@ -78,6 +78,9 @@ trait Templates { self: Config =>
         { heads }
       </head>
       <body>
+        <div id="instructions">
+          arrow &larr; to go left, arrow &rarr; to go right
+        </div>
         <div id="slides">
         <div id="track">
           { slides }

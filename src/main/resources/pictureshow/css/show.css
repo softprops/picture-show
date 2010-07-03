@@ -5,7 +5,12 @@
     font-weight:bold; 
     font-size:94px; 
   }
-  
+  #instructions {
+    font-size:24px;
+    padding:1em;
+    background:#333;
+    color:#fff;
+  }
   #slides {
     overflow: hidden;
   }
