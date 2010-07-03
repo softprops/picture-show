@@ -119,14 +119,14 @@ trait IO { self: Resolver =>
 }
 
 object Files { //self: Resolver =>
- /** creator */
- def apply(path: String) = new java.io.File(path)
- /** recursivly lists file paths */ 
- def ls(path: String)(f: String => Boolean): List[String] = {
-   val root = new java.io.File(path)
-   (root.isDirectory match {
+  /** creator */
+  def apply(path: String) = new java.io.File(path)
+  /** recursivly lists file paths */ 
+  def ls(path: String)(f: String => Boolean): List[String] = {
+    val root = new java.io.File(path)
+    (root.isDirectory match {
       case true => (List[String]() /: (root.listFiles.toList map { _.getPath })) ((s, p) => ls(p)(f) ::: s)
       case _ => root.getPath :: Nil
     }).filter(f)
- }
+  }
 }
