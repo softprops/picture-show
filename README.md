@@ -76,4 +76,4 @@ TODOC
 
 ## why?
 
-I say why not.
+I say why not. Slideshows should be relatively portable and should not require proprietary formats to run. Slideshow presentations should be as simple as possible for an audience to understand. Software should be the same way.
