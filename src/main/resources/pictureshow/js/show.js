@@ -1,6 +1,4 @@
  (function($) {
-    
-    
     var util = (function() {
       return {
         dimensions: function() {
@@ -26,36 +24,35 @@
            document.location.hash = '#' + i;
            adjustSlides();
         }
-      }
+      };
     })();
   
    var setSlideDimensions = function() {
      var d = util.dimensions();
      $('#slides').height(d.height).width(d.width);
      slides.all().height(d.height).width(d.width);
-   }
+   };
 
    var showCurrentSlide = function() {
+     try {
      var dimensions = util.dimensions();
      var index = slides.index();
      var offset = (index || 0) * dimensions.width;
 
      $('#track').animate({ marginLeft: '-' + offset + 'px' }, 200);
-   }
+   } catch(e) { alert(e);}
+   };
 
    var verticalAlign = function() {
      var dimensions = util.dimensions();
      var margin = (dimensions.height - $(this).height()) / 2;
      $(this).css({ paddingTop: margin + 'px' });
-   }
-
+   };
 
    var adjustSlides = function() {
-     var dimensions = util.dimensions();
-
      setSlideDimensions();
      showCurrentSlide();
-   }
+   };
 
    var move = function(e) {
      
@@ -67,7 +64,7 @@
        27: 'home', // esc
        left: -1,
        right: 1
-     }
+     };
 
      if (dir = DIRECTIONS[e.which || e]) {
        if (dir == 'home') {

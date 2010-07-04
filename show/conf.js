@@ -1,6 +1,7 @@
 {
   "title": "picture show",
   "sections": [
-    "test"
+    "test",
+    "test2"
   ]
 }
