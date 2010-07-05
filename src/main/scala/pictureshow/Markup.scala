@@ -2,10 +2,15 @@ package pictureshow
 
 trait Markup { self: IO with Resolver with Config =>
   import com.tristanhunt.knockoff.DefaultDiscounter._
+  def asset(path: String) =
+    "assets/" + (
+      if (loadPath.contains("/")) path.substring(loadPath.lastIndexOf("/")) 
+      else path
+    )
   /** combine all js assets */
-  def combineJs =  loadJs(resourceBase) map { "assets/" + _ }
+  def combineJs =  loadJs(resourceBase) map asset
   /** combine all css assets */
-  def combineCss = loadCss(resourceBase) map { "assets/" + _ }
+  def combineCss = loadCss(resourceBase) map asset
   /** combine both js and css header assets */
   def combineHeads = combineJs ::: combineCss
   /** loads and processes all markdown from configured sections */
