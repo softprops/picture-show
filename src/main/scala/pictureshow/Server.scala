@@ -24,6 +24,6 @@ object Server {
         case Array(p) => p
         case _ => "show"
       }))
-      .start
+      .run
   }
 }
