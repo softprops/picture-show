@@ -10,7 +10,7 @@ trait Config { self: Resolver =>
   /** list of sections to render */
   def sections = provided.sections.getOrElse("test" :: Nil)
   /** ??? */
-  def resourceBase = "."
+  def resourceBase = ""
   
   class SlurpableFile(f: JFile) {
     lazy val slurp = scala.io.Source.fromFile(f).getLines.mkString("")

@@ -15,15 +15,15 @@ object Server {
       context.setHandler(files)
       context
     }
-    
+    val show = args match {
+      case Array(p) => p
+      case _ => "show"
+    }
     unfiltered.server.Http(3000)  
-      .handler(c => assetHandler("/assets", "."))
+      .handler(c => assetHandler("/assets", show))
       .handler(c => assetHandler("/js", getClass.getResource("js/show.js").toString))
       .handler(c => assetHandler("/css", getClass.getResource("css/show.css").toString))
-      .filter(new Projector(args match {
-        case Array(p) => p
-        case _ => "show"
-      }))
+      .filter(new Projector(show))
       .start
   }
 }
