@@ -17,5 +17,5 @@
 !SLIDE
 
 thanks
-![test](assets/show/test/test.jpg "test")
+![test](assets/test/test.jpg "test")
 

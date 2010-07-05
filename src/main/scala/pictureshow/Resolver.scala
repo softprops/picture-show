@@ -1,5 +1,5 @@
 package pictureshow
 
-class Resolver(path: String) {
+class Resolver(path: java.net.URL) {
   def loadPath = path
 }
