@@ -3,7 +3,7 @@ package pictureshow
 trait Markup { self: IO with Resolver with Config =>
   import com.tristanhunt.knockoff.DefaultDiscounter._
   import java.net.URL
-  def asset(path: String) = "assets/" + path
+  def asset(path: String) = path
   /** combine all js assets */
   def combineJs = ("js/custom.js" :: Nil) filter exists map asset
   /** combine all css assets */

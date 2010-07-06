@@ -21,9 +21,9 @@ trait Templates { self: Config =>
     <html>
       <head>
         <title>{ showTitle }</title>
-        <link rel="stylesheet" type="text/css" href="css/show.css" />
-        <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="js/show.js"></script>
+        <link rel="stylesheet" type="text/css" href="lib/css/show.css" />
+        <script type="text/javascript" src="lib/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="lib/js/show.js"></script>
         { heads }
       </head>
       <body>

@@ -20,9 +20,8 @@ object Server {
     })
     if (show.exists && show.isDirectory) {
       unfiltered.server.Http(3000)  
-        .handler(c => assetHandler("/assets", show.toURL))
-        .handler(c => assetHandler("/js", new URL(getClass.getResource("js/show.js"), ".")))
-        .handler(c => assetHandler("/css", new URL(getClass.getResource("css/show.css"), ".")))
+        .context("/lib") { _.resources(new URL(getClass.getResource("js/show.js"), "..")) }
+        .resources(show.toURL)
         .filter(new Projector(show.toURL))
         .run
     } else {

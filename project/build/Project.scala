@@ -5,6 +5,5 @@ class Project(info: ProjectInfo) extends DefaultProject(info) {
   
   val webroot = outputPath / "resources"
   
-  val uf = "net.databinder" %% "unfiltered" % "0.1.2"
-  val ufs = "net.databinder" %% "unfiltered-server" % "0.1.2"
+  val ufs = "net.databinder" %% "unfiltered-server" % "0.1.3-SNAPSHOT"
 }
