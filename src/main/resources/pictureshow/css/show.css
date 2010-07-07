@@ -3,7 +3,7 @@
 body { 
   font-family:Helvetica; 
   font-weight:bold; 
-  font-size:94px; 
+  font-size:64px; 
 }
 #instructions {
   font-size:24px;
@@ -14,11 +14,11 @@ body {
 #slides {
   overflow: hidden;
 }
-#track {
+#reel {
   width: 1000000px;
   overflow: hidden;
 } 
-#track div {
+#reel div {
   float: left;
   overflow: hidden;
 }
@@ -29,19 +29,7 @@ pre, code {
   text-align:left; 
   font-family:monaco, monospace; 
   font-weight:normal; 
-  line-height:.75em;
 }
 a:link, a:visited { color:#12A0FF; text-decoration:none; }
 a:hover { color:#FF1385; }
-
-
-.sub {
-  font-size:24px;
-}
-ul, .support {
-  font-size:34px;
-}
-strong { color:#FF1385; }
-.ex { color:#12A0FF; }
-.comment {color:#ccc;}
-ul {list-style:none;}
+ul, ol { margin-left:1em;}

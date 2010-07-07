@@ -39,7 +39,7 @@
      var index = slides.index();
      var offset = (index || 0) * dimensions.width;
 
-     $('#track').animate({ marginLeft: '-' + offset + 'px' }, 200);
+     $('#reel').animate({ marginLeft: '-' + offset + 'px' }, 200);
    } catch(e) { alert(e);}
    };
 

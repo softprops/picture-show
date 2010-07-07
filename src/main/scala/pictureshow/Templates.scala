@@ -31,7 +31,7 @@ trait Templates { self: Config =>
           arrow &larr; to go left, arrow &rarr; to go right
         </div>
         <div id="slides">
-        <div id="track">
+        <div id="reel">
           { slides }
         </div> 
        </div>

@@ -5,18 +5,9 @@ object Server {
   import org.eclipse.jetty.util.resource.Resource
   import java.net.URL
   def main(args: Array[String]) {
-    def assetHandler(contextPath: String, base: URL) = {
-      val files = new ResourceHandler
-      files.setBaseResource(Resource.newResource(base))
-      val context = new ContextHandler
-      context.setContextPath(contextPath)
-      context.setAliases(true)
-      context.setHandler(files)
-      context
-    }
     val show = new java.io.File(args match {
       case Array(p) => p
-      case _ => "show"
+      case _ => "example"
     })
     if (show.exists && show.isDirectory) {
       unfiltered.server.Http(3000)  
