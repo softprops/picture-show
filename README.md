@@ -19,9 +19,9 @@ the directory contents of a show are expected to be in the format
     /yourshow
       config.js
       /sectiona
-        some.md
+        sectiona.md
       /sectionb
-        someother.md
+        sectionb.md
         
 
 ### config
