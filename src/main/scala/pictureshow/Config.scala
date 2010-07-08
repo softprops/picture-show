@@ -14,11 +14,10 @@ trait Config { self: IO =>
   private val provided = {
     slurp(configName) map { contents =>
       val json = scala.util.parsing.json.JSON.parse(contents)
-      def extract[T](name: String)(f: Any => T) = json flatMap {
-        case head :: (k, v) :: Nil if(k == name) => Some(f(v))
-        case (k, v) :: tail if(k == name) => Some(f(v))
+      def extract[T](name: String)(f: Any => T) = json flatMap { _.flatMap {
+        case (k, v) if(k == name) => Some(f(v))
         case _ => None
-      }
+      }.firstOption }
       Config(extract("title") { _.toString }, extract("sections") { v => v.asInstanceOf[List[String]] })
     } getOrElse Config(None, None)
   }
