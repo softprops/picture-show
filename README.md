@@ -11,7 +11,16 @@ inspired by the likes of showoff and slide down
 currently runs under sbts `run` task
 
     > sbt
-    run path/to/show
+    run /path/to/show
+  
+This will run your show at http://localhost:3000  
+  
+To run a show on a spefic port add the port after the path to the show
+
+    > sbt
+    run /path/to/show 1234
+    
+This will run your show at http://localhost:1234
 
 the directory contents of a show are expected to be in the format
 
@@ -68,7 +77,7 @@ Slide content is expected in the form of markdown which will be transformed into
 
 #### js and css
 
-You can customize your show with css and javascript but adding .css or .js files anywhere under /yourshow directory. The content will then be added to the shows header.
+You can customize your show with css and javascript but adding a `css/custom.css` or `js/custom.js` /yourshow directory. The content will then be added to the shows header.
 
 #### files
 
@@ -77,3 +86,5 @@ TODOC
 ## why?
 
 I say why not. Slideshows should be relatively portable and should not require proprietary formats to run. Slideshow presentations should be as simple as possible for an audience to understand. Software should be the same way.
+
+doug tangren [softprops] 2010
