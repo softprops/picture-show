@@ -1,6 +1,6 @@
 package pictureshow
 
-trait Markup { self: IO with Resolver with Config =>
+trait Markup { self: IO with Resolver with Config with Logging =>
   import com.tristanhunt.knockoff.DefaultDiscounter._
   import java.net.URL
   def asset(path: String) = path
@@ -12,6 +12,7 @@ trait Markup { self: IO with Resolver with Config =>
   def mkSlides = {
     ((new xml.NodeBuffer, 0) /: sections) ((a, s) => {
       val files = slurp("%s/%s.md" format (s, s))
+      if(files.isEmpty) log("no file(s) at path %s/%s.md" format(s, s))
       val fileRes = (((new scala.xml.NodeBuffer, a._2)  /: files)((m, f) => {
         val mdRes = md(f, m._2)
         (m._1 &+ mdRes._1, mdRes._2)
@@ -21,6 +22,7 @@ trait Markup { self: IO with Resolver with Config =>
   }
   private def md(content: String, index: Int) = {
     val slides = content.split("!SLIDE")
+    if(slides.isEmpty) log("no slides within file %s at index %s" format(content, index))
     ((new xml.NodeBuffer, index) /: slides)( (a, s) => {
       val lines = s.split("\n")
       (a._1 &+ (<div class="content" id={"slide-%s" format a._2}>

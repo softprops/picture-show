@@ -1,6 +1,6 @@
 package pictureshow
 
-trait Config { self: IO =>
+trait Config { self: IO with Logging =>
   /** name of config file */
   def configName = "conf.js"
   /** title of show */
@@ -21,4 +21,5 @@ trait Config { self: IO =>
       Config(extract("title") { _.toString }, extract("sections") { v => v.asInstanceOf[List[String]] })
     } getOrElse Config(None, None)
   }
+  log("provided config %s from file %s" format(provided, configName))
 }
