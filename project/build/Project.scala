@@ -6,4 +6,8 @@ class Project(info: ProjectInfo) extends DefaultProject(info) {
   val webroot = outputPath / "resources"
   
   val ufs = "net.databinder" %% "unfiltered-server" % "0.1.3-SNAPSHOT"
+  
+  // testing
+  val snapshots = "Scala Tools Snapshots" at "http://www.scala-tools.org/repo-snapshots/"
+  val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2-SNAPSHOT" % "test"
 }
