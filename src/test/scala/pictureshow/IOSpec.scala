@@ -9,8 +9,11 @@ object IOSpec extends Specification {
   "IO" should {
     "know when files exist" in {
       object FilesExistingIO extends Resolver(loadPath) with IO
-      FilesExistingIO.exists("bogus.txt") must beFalse
       FilesExistingIO.exists("conf.js") must beTrue
+    }
+    "know when files don't exist" in {
+      object FilesExistingIO extends Resolver(loadPath) with IO
+      FilesExistingIO.exists("bogus.txt") must beFalse
     }
     "slurp existing files" in {
       object SlurpingIO extends Resolver(loadPath) with IO
