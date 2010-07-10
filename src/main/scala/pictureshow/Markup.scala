@@ -26,7 +26,9 @@ trait Markup { self: IO with Resolver with Config with Logging =>
     ((new xml.NodeBuffer, index) /: slides)( (a, s) => {
       val lines = s.split("\n")
       (a._1 &+ (<div class="content" id={"slide-%s" format a._2}>
-       { parse(s) }
+       <div class="container">
+        { parse(s) }
+       </div>
       </div>), a._2 + 1)
     })
   }

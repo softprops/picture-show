@@ -6,7 +6,7 @@
  * markdown'd
  * scala'd
  * slide shows
- 
+
 !SLIDE
 
     // codes
