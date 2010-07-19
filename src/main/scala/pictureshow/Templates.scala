@@ -11,8 +11,12 @@ trait Templates { self: Config =>
   }
   /** render the show */
   def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
-  /** render the show with custom header assets (css, js, ...) */
-  def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = default(heads, slides)
+  /** render the show with custom header assets (css, js, ...) 
+   * @note in scala 2.8 you don't need the last to args
+   */
+  def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = xml.Xhtml.toXhtml(
+    default(heads, slides), false, false
+  )
   /** builds a collection of nodes */
   private def collectionOf(c: Seq[String])(f: String => xml.Node) =
     (new xml.NodeBuffer  /: c) ((b, e) => { b &+ f(e) })
