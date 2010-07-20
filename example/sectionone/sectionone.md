@@ -1,3 +1,5 @@
+!SLIDE
+
 # picture show *!*
 
 !SLIDE
