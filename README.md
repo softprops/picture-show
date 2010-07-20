@@ -4,7 +4,7 @@ make slideshows with markdown
 
 inspired by the likes of showoff and slide down
 
-(work in progress. still a bit rough around the edges)
+(still a bit rough around the edges)
 
 ## usage
 
@@ -60,6 +60,7 @@ a `!SLIDE` delimiter.
 The example below generates 3 slides.
 
     > cat some.md
+    !SLIDE
     
     one
     
@@ -71,7 +72,7 @@ The example below generates 3 slides.
     
     three
     
-Slide content is expected in the form of markdown which will be transformed into html.
+Slide content is by default expected in the form of markdown which will be transformed into html.
 
 ### assets
 
