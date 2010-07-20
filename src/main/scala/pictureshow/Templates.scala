@@ -3,11 +3,11 @@ package pictureshow
 trait Templates { self: Config =>
   /** render stylesheet links */
   def css(sheets: Seq[String]) = collectionOf(sheets) { s =>
-    <link rel="stylesheet" type="text/css" href={s}/>
+    <link rel="stylesheet" type="text/css" href={s+"?"+System.currentTimeMillis}/>
   }
   /** render script tags */
   def js(scripts: Seq[String]) = collectionOf(scripts) { s => 
-    <script type="text/javascript" src={s}></script>
+    <script type="text/javascript" src={s+"?"+System.currentTimeMillis}></script>
   }
   /** render the show */
   def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
