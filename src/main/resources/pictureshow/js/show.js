@@ -45,8 +45,8 @@ var show = (function(){
 
   var showCurrentSlide = function() {
     var d = dimensions();
-    var index = show.index();
-    var offset = (index || 0) * d.width;
+    var index = (show.index() || 0);
+    var offset = index * $('#slides').width();
     $('#reel').animate({ marginLeft: '-' + offset + 'px' }, 200);
   };
 
@@ -80,9 +80,12 @@ var show = (function(){
       },
       setIndex: function(i) {
         var newSlide = '#slide-' + i;
-        if ($(newSlide).size() < 1) { return false; }
-        document.location.hash = '#' + i;
-        adjustSlides();
+        if ($(newSlide).size() < 1) {
+          this.setIndex(this.slides().size() - 1);
+        } else {
+          document.location.hash = '#' + i;
+          adjustSlides();
+        }
       },
       go: function() {
         this.setIndex(this.index() || 0);
