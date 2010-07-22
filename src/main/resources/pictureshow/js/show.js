@@ -81,7 +81,7 @@ var show = (function(){
       setIndex: function(i) {
         var newSlide = '#slide-' + i;
         if ($(newSlide).size() < 1) {
-          this.setIndex(this.slides().size() - 1);
+          return false;
         } else {
           document.location.hash = '#' + i;
           adjustSlides();
