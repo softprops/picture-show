@@ -21,7 +21,7 @@ body {
   width: 1000000px;
   overflow: hidden;
 } 
-#reel div {
+#reel div.content {
   float: left;
   overflow: hidden;
 }
