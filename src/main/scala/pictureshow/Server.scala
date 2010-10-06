@@ -16,7 +16,7 @@ object Server extends Logging {
     if (show.exists && show.isDirectory) {
       val projector = new Projector(show.toURL)
       log("starting show \"%s\" @ \"%s\" on port %s" format(projector.showTitle, show, port))
-      unfiltered.server.Http(port)  
+      unfiltered.jetty.Http(port)  
         .context("/lib") { _.resources(new URL(getClass.getResource("js/show.js"), "..")) }
         .resources(show.toURL)
         .filter(projector)

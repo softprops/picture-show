@@ -5,8 +5,8 @@ import unfiltered.request._
 import unfiltered.response._
 import java.net.URL
 
-class Projector(path: URL) extends Resolver(path) with Config with IO with Markup with Templates with Logging with unfiltered.Plan {
-  def filter = {
+class Projector(path: URL) extends Resolver(path) with Config with IO with Markup with Templates with Logging with unfiltered.filter.Plan {
+  def intent = {
     case GET(Path("/", _)) => HtmlContent ~> ResponseString(render(css(combineCss), mkSlides).toString)
   }
 }
