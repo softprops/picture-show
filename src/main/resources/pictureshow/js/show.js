@@ -61,6 +61,12 @@ var show = (function(){
     showCurrentSlide();
   };
 
+  var followLinks = function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    window.open(e.target.href);
+  }
+
   function hideInstructions() {
     $('#instructions').slideUp(200);
   }
@@ -69,7 +75,7 @@ var show = (function(){
 
    $(document).bind('keydown', move);
 
-   $(document).bind('click', clickMove);
+   $(document).bind("click", clickMove);
     
    return {
       slides: function() { 
@@ -85,6 +91,7 @@ var show = (function(){
         } else {
           document.location.hash = '#' + i;
           adjustSlides();
+          $("a").unbind("click").click(followLinks);
         }
       },
       go: function() {
