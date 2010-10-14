@@ -2,7 +2,9 @@ var show = (function(){
   var move = function(e) {
     var DIRECTIONS = {
       37: -1,     // >
+      38: -1,     // up
       39: 1,      // <
+      40: 1,      // down
       32: 1,      // _
       13: 1,      // return
       27: 'home', // esc
