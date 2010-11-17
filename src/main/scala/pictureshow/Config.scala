@@ -6,7 +6,7 @@ trait Config { self: IO with Logging =>
   /** title of show */
   def showTitle = provided.title.getOrElse("picture show")
   /** list of sections to render */
-  def sections = provided.sections.getOrElse("test" :: Nil)
+  def sections = provided.sections.getOrElse(Nil)
   /** ??? */
   def resourceBase = ""
   
@@ -18,8 +18,13 @@ trait Config { self: IO with Logging =>
         case (k, v) if(k == name) => Some(f(v))
         case _ => None
       }.firstOption }
-      Config(extract("title") { _.toString }, extract("sections") { v => v.asInstanceOf[List[String]] })
-    } getOrElse Config(None, None)
+      
+      json match {
+        case None => error("invalid json config %s" format(contents))
+        case _ => Config(extract("title") { _.toString }, extract("sections") { v => v.asInstanceOf[List[String]] })
+      }
+    } getOrElse {
+      error("invalid json in file %s" format configName)
+    }
   }
-  log("provided config %s from file %s" format(provided, configName))
 }
