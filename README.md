@@ -11,14 +11,14 @@ inspired by the likes of showoff and slide down
 currently runs under sbts `run` task
 
     > sbt
-    run /path/to/show
+    run --s=/path/to/show
   
 This will run your show at http://localhost:3000  
   
 To run a show on a spefic port add the port after the path to the show
 
     > sbt
-    run /path/to/show 1234
+    run --s=/path/to/show --p=1234
     
 This will run your show at http://localhost:1234
 
