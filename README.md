@@ -15,14 +15,20 @@ currently runs under sbts `run` task
   
 This will run your show at http://localhost:3000  
   
-To run a show on a spefic port add the port after the path to the show
+To run a show on a specific port add the port after the path to the show
 
     > sbt
     run --s=/path/to/show --p=1234
     
 This will run your show at http://localhost:1234
 
-the directory contents of a show are expected to be in the format
+Show path resolution can default to a target directory specified in an environment variable called `SHOW_HOME`
+
+    > export SHOW_HOME=/path/to
+    > sbt 
+    run --s=show
+
+The directory contents of a show are expected to be in the format
 
 
     /yourshow

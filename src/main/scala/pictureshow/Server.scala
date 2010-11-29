@@ -4,10 +4,19 @@ object Server extends Logging {
   import org.eclipse.jetty.server.handler.{ResourceHandler, ContextHandler}
   import org.eclipse.jetty.util.resource.Resource
   import java.net.URL
+  import java.io.{File => JFile}
   
   object Options {
+    /** flag for path to show */
     val Show = """^--s=(.+)$""".r
+    /** flag for port to listen on */
     val Port = """^--p=(\d{4})$""".r
+    /** resolves env var SHOW_HOME used as a fall back path for shows */
+    val ShowHome = System.getenv("SHOW_HOME") match {
+      case null => ""
+      case str => str
+    }
+    /** parses options tuple (Show, Port) */
     def apply(args: Array[String]) =
       (("example", 3000) /: args)({ (opts, arg) => 
           arg match {
@@ -16,12 +25,21 @@ object Server extends Logging {
             case _ => opts
           }
       })
+    /** first tries resolving path then falls back on SHOW_PATH + path */
+    def tryPath(path: String) = new JFile(path) match {
+      case f if(f.exists && f.isDirectory) =>
+        println("show is fine")
+        f
+      case _ => 
+        println("appending %s" format ShowHome)
+        new JFile(ShowHome, path)
+    }
   }
   
   def main(args: Array[String]) {
     
     val (showPath, port) = Options(args)
-    val show = new java.io.File(showPath)
+    val show = Options.tryPath(showPath)
     
     if (show.exists && show.isDirectory) {
       if(!new java.io.File(show, "conf.js").exists) {
