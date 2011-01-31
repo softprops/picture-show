@@ -23,7 +23,7 @@ var show = (function(){
       }
     }
   };
-    
+
   var clickMove = function(e) {
     if (e.pageX < ($(window).width() / 2)) {
       move('left');
@@ -31,14 +31,14 @@ var show = (function(){
       move('right');
     }
   }
-     
+
   var dimensions = function() {
     return {
       width: $(window).width(),
       height: $(window).height()
     };
   };
-  
+
   var setSlideDimensions = function() {
     var d = dimensions();
     $('#slides').height(d.height).width(d.width);
@@ -72,19 +72,19 @@ var show = (function(){
   function hideInstructions() {
     $('#instructions').slideUp(200);
   }
-    
+
    $(window).bind('resize', function() { adjustSlides(); });
 
    $(document).bind('keydown', move);
 
    $(document).bind("click", clickMove);
-    
+
    return {
-      slides: function() { 
-        return $('#slides .content'); 
+      slides: function() {
+        return $('#slides .content');
       },
-      index: function() { 
-        return Number(document.location.hash.split('#')[1]); 
+      index: function() {
+        return Number(document.location.hash.split('#')[1]);
       },
       setIndex: function(i) {
         var newSlide = '#slide-' + i;
@@ -99,7 +99,7 @@ var show = (function(){
       go: function() {
         this.setIndex(this.index() || 0);
         window.setTimeout(hideInstructions, 2000);
-      } 
+      }
     };
   })();
 

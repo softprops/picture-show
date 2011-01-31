@@ -10,18 +10,18 @@ trait Templates { self: Config =>
     <script type="text/javascript" src={s+"?"+System.currentTimeMillis}></script>
   }
   /** render the show */
-  def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides)
+  def render(slides : xml.NodeBuffer) = default(new xml.NodeBuffer, slides, new xml.NodeBuffer)
   /** render the show with custom header assets (css, js, ...)
    * @note in scala 2.8 you don't need the last to args
    */
-  def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer) = xml.Xhtml.toXhtml(
-    default(heads, slides), false, false
+  def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer, bodyScripts: xml.NodeBuffer) = xml.Xhtml.toXhtml(
+    default(heads, slides, bodyScripts), false, false
   )
   /** builds a collection of nodes */
   private def collectionOf(c: Seq[String])(f: String => xml.Node) =
     (new xml.NodeBuffer  /: c) ((b, e) => { b &+ f(e) })
   /** default template */
-  private def default(heads: xml.NodeBuffer, slides: xml.NodeBuffer) =
+  private def default(heads: xml.NodeBuffer, slides: xml.NodeBuffer, bodyScripts:xml.NodeBuffer) =
     <html>
       <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
@@ -40,6 +40,7 @@ trait Templates { self: Config =>
           { slides }
         </div>
        </div>
+       {bodyScripts}
       </body>
     </html>
 }

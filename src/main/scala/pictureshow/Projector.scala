@@ -7,6 +7,6 @@ import java.net.URL
 
 class Projector(path: URL) extends Resolver(path) with Config with IO with Markup with Templates with Logging with unfiltered.filter.Plan {
   def intent = {
-    case Path("/") => HtmlContent ~> ResponseString(render(css(combineCss), mkSlides).toString)
+    case Path("/") => HtmlContent ~> ResponseString(render(css(combineCss), mkSlides, js(combineJs)).toString)
   }
 }
