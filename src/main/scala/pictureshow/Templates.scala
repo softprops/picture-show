@@ -26,21 +26,18 @@ trait Templates { self: Config =>
       <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{ showTitle }</title>
-        <link rel="stylesheet" type="text/css" href="lib/css/show.css" />
-        <script type="text/javascript" src="lib/js/jquery-1.4.2.min.js"></script>
-        <script type="text/javascript" src="lib/js/show.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/css/show.css" />
+        <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="assets/js/show.js"></script>
         { heads }
       </head>
       <body>
-        <div id="instructions">
-          arrow &larr; to go left, arrow &rarr; to go right
-        </div>
         <div id="slides">
-        <div id="reel">
-          { slides }
+          <div id="reel">
+            { slides }
+          </div>
         </div>
-       </div>
-       {bodyScripts}
+        {bodyScripts}
       </body>
     </html>
 }

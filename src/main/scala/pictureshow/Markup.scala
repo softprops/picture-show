@@ -30,13 +30,13 @@ trait Markup { self: IO with Resolver with Config with Logging =>
          s.split("\n")(0).trim match {
             case Meta(meta) => {
               <div>{ xml.PCData( s.split("\n").toList.drop(1).mkString("") ) }</div>
-            } 
-            case _ => parseMarkdown(s) 
+            }
+            case _ => parseMarkdown(s)
           }
         }</div>
       </div>), a._2 + 1)
     })
   }
-  
+
   private def parseMarkdown(content: String) = toXHTML(knockoff(content))
 }

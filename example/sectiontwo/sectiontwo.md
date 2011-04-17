@@ -1,8 +1,7 @@
 !SLIDE
 
-## section 2
-
-class dismissed
+# class dismissed
 
 !SLIDE
+
 fin.

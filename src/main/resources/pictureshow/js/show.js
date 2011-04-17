@@ -18,7 +18,6 @@ var show = (function(){
         e.stopPropagation();
         location.href = '/';
       } else {
-        $('#instructions').slideUp(100);
         show.setIndex(show.index() + dir);
       }
     }
@@ -69,10 +68,6 @@ var show = (function(){
     window.open(e.target.href);
   }
 
-  function hideInstructions() {
-    $('#instructions').slideUp(200);
-  }
-
    $(window).bind('resize', function() { adjustSlides(); });
 
    $(document).bind('keydown', move);
@@ -98,7 +93,6 @@ var show = (function(){
       },
       go: function() {
         this.setIndex(this.index() || 0);
-        window.setTimeout(hideInstructions, 2000);
       }
     };
   })();

@@ -4,19 +4,47 @@
 
 !SLIDE
 
- * really basic 
+ * really basic
  * markdown'd
  * scala'd
  * slide shows
 
 !SLIDE
 
-    // codes
-    (0 /: (1 to 10))(_+_)
+# spec _
 
 !SLIDE
 
-(pictures)
+&excl;`SLIDE`
 
-![pic](sectionone/test.jpg "pic")
+
+    A slide looks like this
+
+&excl;`SLIDE`
+
+        Intent 4 spaces for code
+
+&excl;`SLIDE`
+
+    If it's [markdown](http://j.mp/VMc0m),
+    it should work
+
+&excl;`SLIDE`
+
+    even ![pic](sectionone/test.jpg "pics")
+
+!SLIDE
+
+A slide looks like this
+
+!SLIDE
+
+    Indent 4 spaces for code
+!SLIDE
+
+If it's [markdown](http://j.mp/VMc0m), it should work
+
+!SLIDE
+
+even ![pic](sectionone/test.jpg "pics")
 
