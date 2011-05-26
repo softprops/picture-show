@@ -22,7 +22,7 @@
 
 &excl;`SLIDE`
 
-        Intent 4 spaces for code
+        Indent 4 spaces for code
 
 &excl;`SLIDE`
 
