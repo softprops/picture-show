@@ -22,7 +22,9 @@ trait Markup { self: IO with Resolver with Config with Logging =>
   }
   private def parse(content: String, index: Int) = {
     var Meta = """(?i)(HTML)""".r
-    val slides = content.split("!SLIDE")
+    // (?m) enables multiline matching, so ^ anchors to start of line,
+    // not start of input
+    val slides = content.split("(?m)^!SLIDE")
     if(slides.isEmpty) log("no slides within file %s at index %s" format(content, index))
     ((new xml.NodeBuffer, index) /: slides.drop(1))( (a, s) => {
       (a._1 &+ (<div class="content" id={"slide-%s" format a._2}>
