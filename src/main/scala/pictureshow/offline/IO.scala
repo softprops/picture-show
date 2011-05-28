@@ -11,7 +11,7 @@ object IO {
   
   type Resource = { def close(): Unit }
   
-  def loan[R <: Resource, A](r: => R)(op: R => A) =
+  def loan[R <: Resource, A](r: R)(op: R => A) =
     try {
       Right(op(r))
     } catch {
@@ -23,7 +23,7 @@ object IO {
   def copy(source: String, target: String): Either[Exception, Unit] =
     copy(new FileInputStream(source), new File(target))
   
-  def copy(r: => InputStream, target: File): Either[Exception, Unit] = {
+  def copy(r: InputStream, target: File): Either[Exception, Unit] = {
     target getParentFile() mkdirs()
     loan(new FileOutputStream(target)) { w =>
       loan(r) { r =>
