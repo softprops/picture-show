@@ -1,0 +1,157 @@
+<html>
+      <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <title>Mobilizing Robots using Scala</title>
+        <link href="assets/css/show.css" type="text/css" rel="stylesheet" />
+        <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="assets/js/show.js"></script>
+        <link href="css/custom.css?1306719781651" type="text/css" rel="stylesheet" />
+      </head>
+      <body>
+        <div id="slides">
+          <div id="reel">
+            <div class="content" id="slide-0">
+       <div class="container"><h1>Mobilizing <strong>Scala</strong></h1><h2>with <span class="an">robots</span></h2><p><img  src="/hello/android-icon.png" alt="android" />
+</p><p>@<a href="http://twitter.com/softprops" >softprops</a>
+</p></div>
+      </div><div class="content" id="slide-1">
+       <div class="container"><h1>why <span class="an">android</span>?</h1></div>
+      </div><div class="content" id="slide-2">
+       <div class="container"><h1>a jvm platform</h1><ul><li>scala can play too
+</li></ul><h1>offline</h1><ul><li>you can play <strong>digdug</strong> on the subway
+</li></ul><p><img  src="/hello/digdug.gif" alt="digdug" />
+</p></div>
+      </div><div class="content" id="slide-3">
+       <div class="container"><h1>typical devt tools</h1><ul><li>sbt
+</li><li>emacs
+</li></ul></div>
+      </div><div class="content" id="slide-4">
+       <div class="container"><h1>android devt tools</h1><ul><li>sbt
+</li><li>emacs
+</li><li>+ <strong>adb</strong>
+</li></ul></div>
+      </div><div class="content" id="slide-5">
+       <div class="container"><h1>step one: <strong>templatize</strong></h1><pre><code>g8 n8han/android-app
+</code></pre></div>
+      </div><div class="content" id="slide-6">
+       <div class="container"><h1>step two: <strong>build</strong></h1><pre><code>class Calculator extends Activity {
+   def onCreate(instance: Bundle) = {
+      super.onCreate(instance)
+      //...
+   }
+}
+</code></pre></div>
+      </div><div class="content" id="slide-7">
+       <div class="container"><h1>step three: <strong>deploy</strong></h1><pre><code>sbt reinstall-device
+</code></pre></div>
+      </div><div class="content" id="slide-8">
+       <div class="container"><h1>step four: <strong>repeat</strong></h1><h1><strong>two</strong> and <strong>three</strong></h1></div>
+      </div><div class="content" id="slide-9">
+       <div class="container"><h1>why <strong>scala</strong>?</h1><ul><li>consice
+</li><li>flexible
+</li><li>expressive
+</li><li>fun
+</li></ul></div>
+      </div><div class="content" id="slide-10">
+       <div class="container"><h1>but...</h1><ul><li>what about <strong>size</strong>?
+</li><li>what about <strong>compatablity</strong>?
+</li></ul></div>
+      </div><div class="content" id="slide-11">
+       <div class="container"><h1>but...</h1><ul><li>what about <strong>size</strong>?
+</li></ul><p><code>let the progaurd be with you</code>
+</p><p> <img  src="/hello/pacman.jpg" alt="pacman" /> <code>|bytecode.bytecode.bytecode|</code>
+</p><p> <code>|b.c.|</code>  <img  src="/hello/pacman.jpg" alt="pacman" />
+</p><ul><li>what about <strong>compatability</strong>?
+</li></ul><p> <code>leave it to dex</code>
+</p></div>
+      </div><div class="content" id="slide-12">
+       <div class="container"><h1>wins</h1><ul><li>lazy immutablity
+</li><li>composability
+</li></ul></div>
+      </div><div class="content" id="slide-13">
+       <div class="container"><h1>lazy immutability</h1><pre><code>public class Okay extends Activity {
+  private View view = null;
+
+  @Override
+  public void onCreate(Bundle instance) {
+    super.onCreate(instance);
+    view = findViewById(R.id.my_view);
+  }
+}
+</code></pre></div>
+      </div><div class="content" id="slide-14">
+       <div class="container"><h1>lazy immutability</h1><pre><code>class Better extends Activity {
+  lazy val view = findViewById(R.id.my_view)
+
+  override def onCreate(instance: Bundle) =
+    super.onCreate(instance)
+}
+</code></pre></div>
+      </div><div class="content" id="slide-15">
+       <div class="container"><h1>composability</h1><pre><code>public class A extends Activity {}
+public class B extends A {}
+public class C extends B {}
+</code></pre></div>
+      </div><div class="content" id="slide-16">
+       <div class="container"><h1>composability</h1><pre><code>/** booo */
+public class A extends Activity {}
+public class B extends A {}
+public class C extends B {}
+// damn, now I need another shim in my model!
+</code></pre></div>
+      </div><div class="content" id="slide-17">
+       <div class="container"><h1>composability</h1><p>(as reusable behavioral sprinkles)
+</p><pre><code>trait Shaking ...
+trait Toasted ...
+trait Cropping ...
+trait OAuth ...
+class A extends Activity
+  with Shaking with Toasted
+  with Cropping with OAuth
+</code></pre></div>
+      </div><div class="content" id="slide-18">
+       <div class="container"><h1>fails</h1><ul><li><strong>AsyncTask</strong> no worky
+</li></ul><p>Unit*
+</p><pre><code>new AsyncTask[Unit, Unit, Unit] {
+     def doInBackground(params: Unit*) =
+</code></pre><p>Unit...
+</p><pre><code>new AsyncTask&lt;Unit, Unit, Unit&gt; {
+    public void doInBackground(Unit... params) {
+</code></pre></div>
+      </div><div class="content" id="slide-19">
+       <div class="container"><h1>oh yeah?</h1><pre><code>trait Async {
+  val handler = new Handler
+  def async(f: =&gt; Unit) =
+    handler.post(new Runnable {
+      def run = f
+    })
+}
+</code></pre></div>
+      </div><div class="content" id="slide-20">
+       <div class="container"><pre><code> class Miner extends Activity with Aysnc {
+   def dig = async {
+      shovelShovelShovel
+    }
+ }
+</code></pre></div>
+      </div><div class="content" id="slide-21">
+       <div class="container"><h1>room for improvement</h1><ul><li>scalanization tool kit
+</li><li>examples
+</li><li>you!
+</li></ul></div>
+      </div><div class="content" id="slide-22">
+       <div class="container"><h1>tick!</h1><p><a href="https://github.com/softprops/tick/tree/pictures" >github.com/softprops/tick/tree/pictures</a>
+</p><h2>todo</h2><ul><li>better name
+</li><li>fix bitmap write bug
+</li><li>non-stock icon
+</li><li>pic pool
+</li><li>more caching
+</li></ul></div>
+      </div><div class="content" id="slide-23">
+       <div class="container"><h1>q?</h1></div>
+      </div>
+          </div>
+        </div>
+        <script type="text/javascript" src="js/custom.js?1306719781801"></script>
+      </body>
+    </html>

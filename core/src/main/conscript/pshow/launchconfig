@@ -1,0 +1,13 @@
+[app]
+  version: 0.0.1-SNAPSHOT
+  org: me.lessis
+  name: picture-show
+  class: pictureshow.PictureShowScript
+[scala]
+  version: 2.8.1
+[repositories]
+  less:http://repo.lessis.me
+  local
+  maven-local
+  scala-tools-releases
+  maven-central

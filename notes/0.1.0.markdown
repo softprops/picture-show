@@ -1,0 +1,21 @@
+# modularized
+
+Finally... a release. Broke some things up into modules.
+
+## core
+
+* basic text file processing and formatting
+
+## server
+
+* a simple server for presentations
+
+## offline
+
+* writes presentations to flat html files [@chrislewis][chrislewis]
+
+## conscript
+
+* command line fu
+
+[chrislewis]: https://github.com/chrislewis

@@ -1,17 +1,28 @@
 import sbt._
-class Project(info: ProjectInfo) extends DefaultProject(info) {
-  val knockoff = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
 
-  val webroot = outputPath / "resources"
+class PictureShow(info: ProjectInfo) extends ParentProject(info) with posterous.Publish {
+  class PictureShowModule(info: ProjectInfo) extends DefaultProject(info) {
+    val knockoff = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
+  }
 
-  val uf_vers = "0.3.2"
-  val uff = "net.databinder" %% "unfiltered-filter" % uf_vers
-  val ufj = "net.databinder" %% "unfiltered-jetty" % uf_vers
+  /** core transformations from txt files to html slide formated html */
+  lazy val core = project("core", "PictureShow", new PictureShowModule(_) {
+     val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2" % "test"
+  })
 
-  val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided" // for conscript
+  /** serves generated html on a configurable port */
+  lazy val server = project("server", "PictureShow Server", new PictureShowModule(_) {
+    val uf_version = "0.3.3"
+    val uff = "net.databinder" %% "unfiltered-filter" % uf_version
+    val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
+    val webroot = outputPath / "resources" // may not need this?
+  }, core)
 
-  // testing
- // val snapshots = "Scala Tools Snapshots" at "http://www.scala-tools.org/repo-snapshots/"
+  /** caches generated html to disk */
+  lazy val offln = project("offline", "PictureShow Offline", new PictureShowModule(_), core)
 
-  val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2" % "test"
+  /** command line client */
+  lazy val conscript = project("conscript", "PictureShow Conscript", new PictureShowModule(_) {
+     val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
+  }, core, server, offln)
 }

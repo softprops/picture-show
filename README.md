@@ -12,20 +12,20 @@ currently runs under sbts `run` task
 
     > sbt
     run --s=/path/to/show
-  
-This will run your show at http://localhost:3000  
-  
+
+This will run your show at http://localhost:3000
+
 To run a show on a specific port add the port after the path to the show
 
     > sbt
     run --s=/path/to/show --p=1234
-    
+
 This will run your show at http://localhost:1234
 
 Show path resolution can default to a target directory specified in an environment variable called `SHOW_HOME`
 
     > export SHOW_HOME=/path/to
-    > sbt 
+    > sbt
     run --s=show
 
 The directory contents of a show are expected to be in the format
@@ -37,7 +37,7 @@ The directory contents of a show are expected to be in the format
         sectiona.md
       /sectionb
         sectionb.md
-        
+
 
 ### config
 
@@ -53,7 +53,7 @@ format should include a sections key with an array of section names to render an
         "sectionb"
       ]
     }
-  
+
 You can leave out a section or rearrange sections but you should provide at least one.
 
 ### slides
@@ -67,17 +67,17 @@ The example below generates 3 slides.
 
     > cat some.md
     !SLIDE
-    
+
     one
-    
+
     !SLIDE
-    
+
     two
-    
+
     !SLIDE
-    
+
     three
-    
+
 Slide content is by default expected in the form of markdown which will be transformed into html.
 
 ### assets
@@ -94,4 +94,9 @@ TODOC
 
 I say why not. Slideshows should be relatively portable and should not require proprietary formats to run. Slideshow presentations should be as simple as possible for an audience to understand. Software should be the same way.
 
-doug tangren [softprops] 2010
+
+## todo
+
+* use a grownup command line parser of options. possibly [scopt](https://github.com/jstrachan/scopt)
+
+doug tangren [softprops] 2010-11

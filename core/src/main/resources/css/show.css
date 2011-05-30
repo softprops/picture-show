@@ -1,0 +1,39 @@
+* { margin:0; padding:0; }
+
+body {
+  font-family:Helvetica, Arial;
+  font-weight:bold;
+  font-size:3em;
+}
+#instructions {
+  font-size:24px;
+  padding:1em;
+  background:#333;
+  color:#fff;
+}
+#slides {
+  overflow: hidden;
+}
+#slides .content .container {
+   padding:.5em;
+}
+#reel {
+  width: 1000000px;
+  overflow: hidden;
+}
+#reel div.content {
+  float: left;
+  overflow: hidden;
+}
+.content {
+
+}
+pre, code {
+  font-size:34px;
+  text-align:left;
+  font-family:Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+  font-weight:normal;
+}
+a:link, a:visited { color:#12A0FF; text-decoration:none; }
+a:hover { color:#FF1385; }
+ul, ol { margin-left:1em; }
