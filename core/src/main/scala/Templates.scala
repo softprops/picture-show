@@ -27,7 +27,7 @@ trait Templates { self: Config =>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{ showTitle }</title>
         <link rel="stylesheet" type="text/css" href="assets/css/show.css" />
-        <script type="text/javascript" src="assets/js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/show.js"></script>
         { heads }
       </head>
