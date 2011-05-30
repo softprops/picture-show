@@ -7,6 +7,7 @@ class PictureShow(info: ProjectInfo) extends ParentProject(info) with posterous.
 
   /** core transformations from txt files to html slide formated html */
   lazy val core = project("core", "PictureShow", new PictureShowModule(_) {
+     val codec = "commons-codec" % "commons-codec" % "1.4"
      val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2" % "test"
   })
 
