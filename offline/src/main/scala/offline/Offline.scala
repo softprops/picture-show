@@ -8,9 +8,9 @@ object Offline {
     if(in contains mark)
       Some(in.substring(in.lastIndexOf(mark) + mark.length + 1))
     else
-      None
+      Some(in)
   /** Common use. */
-  val afterPicshow = strAfter("pictureshow")_
+  val afterPicshow = strAfter("resources")_
 
   /** URL => File source/target mappings for core assets. */
   def coreAssetMappings(parent: File)(assets: Iterator[java.net.URL]) =
@@ -19,7 +19,7 @@ object Offline {
     } map { case (u, t) => u -> new File(parent, "assets/" + t) }
   /** String => String source/target mappings for show assets. */
   def showAssetMappings(fromF: File)(toF: File) =
-    Files.ls(fromF.toString)(_ => true) map { p =>
+    Files.ls(fromF.toString)(!_.endsWith("conf.js")) map { p =>
       p.toString -> p.toString.replaceFirst(fromF.toString, toF.toString)
     }
   /** Render a show as if it were being delivered over the wire. */
