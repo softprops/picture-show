@@ -4,8 +4,8 @@ import org.specs._
 
 object ConfigSpec extends Specification {
   import java.net.URL;
-  val loadPath = new URL(getClass getResource("conf.js"), ".")
-  "Configs" should {  
+  val loadPath = new URL(getClass getResource("/conf.js"), ".")
+  "Configs" should {
     "have a default title and sections" in {
       object EmptyConfig extends Resolver(loadPath) with IO with Logging with Config {
         override def configName = "empty_conf.js"
