@@ -3,7 +3,7 @@ package pictureshow
 object Server extends Logging {
   import java.net.URL
   import java.io.{File => JFile}
-  import unfiltered.jetty._
+  import unfiltered.jetty
 
   object Options {
     /** flag for path to show */
@@ -32,9 +32,6 @@ object Server extends Logging {
   }
 
   class Instance(args: Array[String], err: String => Unit) {
-    import org.eclipse.jetty.server.handler.{ResourceHandler, ContextHandler}
-    import org.eclipse.jetty.util.resource.Resource
-
     val (showPath, port) = Options(args)
     val show = Options.tryPath(showPath)
 
@@ -53,7 +50,7 @@ object Server extends Logging {
 
     log("starting show \"%s\" @ \"%s\" on port %s" format(projector.showTitle, show, port))
 
-    val svr = unfiltered.jetty.Http(port).context("/assets") {
+    val svr = jetty.Http(port).context("/assets") {
        _.resources(new URL(getClass.getResource("/js/show.js"), ".."))
     }.resources(show.toURI.toURL).filter(projector)
 
