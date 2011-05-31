@@ -24,6 +24,9 @@ class PictureShow(info: ProjectInfo) extends ParentProject(info) with posterous.
 
   /** command line client */
   lazy val conscript = project("conscript", "PictureShow Conscript", new PictureShowModule(_) {
+     val technically = Resolver.url("technically.us", new java.net.URL("http://databinder.net/repo/"))(Resolver.ivyStylePatterns)
      val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
   }, core, server, offln)
+
+  override def managedStyle = ManagedStyle.Maven
 }
