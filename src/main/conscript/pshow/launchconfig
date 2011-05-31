@@ -1,7 +1,7 @@
 [app]
   version: 0.1.0-SNAPSHOT
   org: me.lessis
-  name: picture-show
+  name: pictureshow-conscript
   class: pictureshow.PictureShowScript
 [scala]
   version: 2.7.7
