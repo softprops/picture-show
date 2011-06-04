@@ -80,6 +80,20 @@ The example below generates 3 slides.
 
 Slide content is by default expected in the form of markdown which will be transformed into html.
 
+You can also embed images. It's recommended to place them under the section directory of the same markdown file and to use a relative path.
+
+If you have a project with includes a `sectiona` section with a `foo.jpg` file
+
+    /show
+       ..
+       /sectiona
+         sectiona.md
+         foo.jpg
+
+In `sectiona.md`, you'll want to reference `foo.jpg` as
+
+     ![foo](sectiona/foo.jpg)
+
 ### assets
 
 #### js and css
