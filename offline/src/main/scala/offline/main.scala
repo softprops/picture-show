@@ -28,20 +28,29 @@ object Main extends Logging {
     }
   }
 
-  def main(args: Array[String]) {
+  def instance(args: Array[String]) = {
     val (showPath, out) = Options(args)
     val show = Options.tryPath(showPath)
 
     if (!show.exists || !show.isDirectory) {
-      error("The path `%s` is not an accessible directory" format show.toString)
+      Left("The path `%s` is not an accessible directory" format show.toString)
+    } else if(!new java.io.File(show, "conf.js").exists) {
+      Left("conf.js not found under @ `%s`." format show.toString)
+    } else {
+      val js = "show" :: "jquery.min" :: Nil map { "/js/%s.js" format _ }
+      val css = "show" :: Nil map { "/css/%s.css" format _ }
+      val assets = js ++ css map { p => getClass().getResource(p.format("show")) }
+      Right(() => Offline(show.getAbsolutePath, assets.elements, out))
     }
-
-    if(!new java.io.File(show, "conf.js").exists) {
-      error("conf.js not found under @ `%s`." format show.toString)
-    }
-    val js = "show" :: "jquery.min" :: Nil map { "/js/%s.js" format _ }
-    val css = "show" :: Nil map { "/css/%s.css" format _ }
-    val assets = js ++ css map { p => getClass().getResource(p.format("show")) }
-    Offline(show.getAbsolutePath, assets.elements, out)
   }
+
+  def main(args: Array[String]) {
+    instance(args).fold({ errs =>
+      println(errs)
+      System.exit(1)
+    }, { ol =>
+       ol()
+    })
+  }
+
 }

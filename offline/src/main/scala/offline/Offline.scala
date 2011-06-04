@@ -10,12 +10,12 @@ object Offline {
     else
       Some(in)
   /** Common use. */
-  val afterPicshow = strAfter("resources")_
+  def afterPicshow(p: String) = p.split('/').reverse.take(2).reverse.mkString("/")
 
   /** URL => File source/target mappings for core assets. */
   def coreAssetMappings(parent: File)(assets: Iterator[java.net.URL]) =
     assets map { u =>
-      u -> afterPicshow(u.toString).getOrElse("")
+      u -> afterPicshow(u.toString)
     } map { case (u, t) => u -> new File(parent, "assets/" + t) }
   /** String => String source/target mappings for show assets. */
   def showAssetMappings(fromF: File)(toF: File) =

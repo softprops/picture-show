@@ -5,7 +5,6 @@ class PictureShowScript extends xsbti.AppMain {
   /**
    * --offline
    * --server
-   *
    */
   object Options {
     /** which mode to use */
@@ -21,7 +20,6 @@ class PictureShowScript extends xsbti.AppMain {
           case _ => mode
         }
       })
-
   }
 
   case class Exit(val code: Int) extends xsbti.Exit
@@ -29,15 +27,23 @@ class PictureShowScript extends xsbti.AppMain {
   def run(config: xsbti.AppConfiguration) = {
     Options(config.arguments) match {
       case Options.Server =>
-        Server.instance(config.arguments)(err => {
-          System.err.println(err)
+        Server.instance(config.arguments).fold({ errs =>
+          println(errs)
           Exit(1)
-        }).run({
-          _ => println("thank you for watching")
+        }, { svr =>
+          svr.run({
+            _ => println("thank you for watching")
+          })
+          Exit(0)
         })
       case Options.Offline =>
-         offline.Main.main(config.arguments)
+        offline.Main.instance(config.arguments).fold({ errs =>
+          println(errs)
+          Exit(1)
+        }, { ol =>
+          ol()
+          Exit(0)
+        })
     }
-    Exit(0)
   }
 }

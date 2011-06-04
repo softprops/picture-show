@@ -31,37 +31,36 @@ object Server extends Logging {
     }
   }
 
-  class Instance(args: Array[String], err: String => Unit) {
+  def instance(args: Array[String]) = {
     val (showPath, port) = Options(args)
     val show = Options.tryPath(showPath)
 
     if (!show.exists || !show.isDirectory) {
-      err("The path `%s` is not an accessible directory" format show.toString)
+      Left("The path `%s` is not an accessible directory" format show.toString)
+    } else if (!new JFile(show, "conf.js").exists) {
+      Left("conf.js not found under @ `%s`." format show.toString)
+    } else {
+      val projector = new Projector(show.toURI.toURL)
+      if (projector.sections.isEmpty) {
+        Left("Show content not found @ `%s`. conf.js" format show.toString)
+      } else {
+        log("starting show \"%s\" @ \"%s\" on port %s" format(projector.showTitle, show, port))
+        Right(jetty.Http(port).context("/assets") {
+          _.resources(new URL(getClass.getResource("/js/show.js"), ".."))
+        }.resources(show.toURI.toURL).filter(projector))
+      }
     }
 
-    if(!new java.io.File(show, "conf.js").exists) {
-      err("conf.js not found under @ `%s`." format show.toString)
-    }
-
-    val projector = new Projector(show.toURI.toURL)
-    if(projector.sections.isEmpty) {
-      err("Show content not found @ `%s`. conf.js" format show.toString)
-    }
-
-    log("starting show \"%s\" @ \"%s\" on port %s" format(projector.showTitle, show, port))
-
-    val svr = jetty.Http(port).context("/assets") {
-       _.resources(new URL(getClass.getResource("/js/show.js"), ".."))
-    }.resources(show.toURI.toURL).filter(projector)
-
-    def run(afterRun: svr.type => Unit) = svr.run(afterRun)
   }
-
-  def instance(args: Array[String])(err: String => Unit) = new Instance(args, err)
 
   def main(args: Array[String]) {
-    instance(args)(err => {
-      System.err.println(err); System.exit(1)
-    }).run(_ => ())
+    instance(args).fold({ err =>
+      println("instance failed!")
+      println(err)
+      System.exit(1)
+    }, { svr =>
+      svr.run(_ => ())
+    })
   }
+
 }
