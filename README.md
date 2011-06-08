@@ -8,25 +8,24 @@ inspired by the likes of showoff and slide down
 
 ## usage
 
-currently runs under sbts `run` task
+Currently runs under sbts `run` task once the project is set to `PictureShow Server`
 
-    > sbt
-    run --s=/path/to/show
+    > project PictureShow Server
+    Set current project to PictureShow Server 0.1.0-SNAPSHOT
+    > run --s=/path/to/show
 
 This will run your show at http://localhost:3000
 
 To run a show on a specific port add the port after the path to the show
 
-    > sbt
-    run --s=/path/to/show --p=1234
+    > run --s=/path/to/show --p=1234
 
 This will run your show at http://localhost:1234
 
 Show path resolution can default to a target directory specified in an environment variable called `SHOW_HOME`
 
     > export SHOW_HOME=/path/to
-    > sbt
-    run --s=show
+    > run --s=show
 
 The directory contents of a show are expected to be in the format
 
