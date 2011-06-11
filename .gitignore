@@ -4,3 +4,4 @@ src_managed
 project/boot
 .DS_Store
 out
+project/plugins/project/
