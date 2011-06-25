@@ -32,7 +32,7 @@ class PictureShowScript extends xsbti.AppMain {
           Exit(1)
         }, { svr =>
           svr.run({
-            _ => println("starting show")
+            _ => ()
           },{
             _ => println("thank you for watching")
           })
