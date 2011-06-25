@@ -4,9 +4,9 @@ object Main extends Logging {
   import java.io.{File => JFile}
   object Options {
     /** path to show */
-    val Show = """^--s=(.+)$""".r
+    val Show = """^-s=(.+)$""".r
     /** where to output results */
-    val Out = """^--o=(\d{4})$""".r
+    val Out = """^-o=(.+)$""".r
     /** resolves env var SHOW_HOME used as a fall back path for shows */
     val ShowHome = System.getenv("SHOW_HOME") match {
       case null => ""
