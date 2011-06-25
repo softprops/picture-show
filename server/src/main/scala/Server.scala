@@ -7,9 +7,9 @@ object Server extends Logging {
 
   object Options {
     /** flag for path to show */
-    val Show = """^--s=(.+)$""".r
+    val Show = """^-s=(.+)$""".r
     /** flag for port to listen on */
-    val Port = """^--p=(\d{4})$""".r
+    val Port = """^-p=(\d{4})$""".r
     /** resolves env var SHOW_HOME used as a fall back path for shows */
     val ShowHome = System.getenv("SHOW_HOME") match {
       case null => ""
