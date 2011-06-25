@@ -17,7 +17,7 @@ object Server extends Logging {
     }
     /** parses options tuple (Show, Port) */
     def apply(args: Array[String]) =
-      (("example", 3000) /: args)({ (opts, arg) =>
+      ((".", 3000) /: args)({ (opts, arg) =>
         arg match {
           case Show(showPath) => (showPath, opts._2)
           case Port(port) => (opts._1, Integer.parseInt(port))
@@ -33,7 +33,7 @@ object Server extends Logging {
 
   def instance(args: Array[String]) = {
     val (showPath, port) = Options(args)
-    val show = Options.tryPath(showPath)
+    val show = Options.tryPath(showPath).getCanonicalFile
 
     if (!show.exists || !show.isDirectory) {
       Left("The path `%s` is not an accessible directory" format show.toString)
