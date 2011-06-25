@@ -31,20 +31,20 @@ The directory contents of a show are expected to be in the format
 
 
     /yourshow
-      config.js
+      conf.js
       /sectiona
         sectiona.md
       /sectionb
         sectionb.md
 
 
-### config
+### conf
 
-Shows are configurable through a `config.js` file. This file should be in json
+Shows are configurable through a `conf.js` file. This file should be in json
 format should include a sections key with an array of section names to render and an optional title. From the example above
 
 
-    > cat config.js
+    > cat conf.js
     {
       "title": "some show title"
       "sections": [
