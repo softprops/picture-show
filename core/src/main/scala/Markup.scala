@@ -1,7 +1,7 @@
 package pictureshow
 
 trait Markup { self: IO with Resolver with Config with Logging =>
-  import com.tristanhunt.knockoff.DefaultDiscounter._
+  import pamflet.PamfletDiscounter._
   import java.net.URL
   def asset(path: String) = path
   /** combine all js assets */
