@@ -27,9 +27,22 @@ trait Templates { self: Config =>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <title>{ showTitle }</title>
         <link rel="stylesheet" type="text/css" href="assets/css/show.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/prettify.css" />
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/show.js"></script>
-        { heads }
+        <script type="text/javascript" src="assets/js/prettify/prettify.js"></script>
+        {
+          ("apollo" :: "css" :: "hs" :: "lisp" :: "lua" :: "ml" :: "proto" ::
+          "scala" :: "sql" :: "sql" :: "vb" :: "vhdl" :: "wiki" :: 
+          "yaml" :: Nil).map { lang =>
+            <script type="text/javascript" src={
+              "assets/js/prettify/lang-%s.js".format(lang)
+            }></script>
+          } ++ heads
+        }
+      <script type="text/javascript"><!--
+        window.onload=function() { prettyPrint(); };
+      --></script>
       </head>
       <body>
         <div id="slides">

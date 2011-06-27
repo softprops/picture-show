@@ -2,7 +2,7 @@ import sbt._
 
 class PictureShow(info: ProjectInfo) extends ParentProject(info) with posterous.Publish {
   class PictureShowModule(info: ProjectInfo) extends DefaultProject(info) {
-    val knockoff = "com.tristanhunt" %% "knockoff" % "0.8.0-16"
+    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.2"
   }
 
   /** core transformations from txt files to html slide formated html */
