@@ -1,0 +1,45 @@
+# modularized
+
+Finally... a release. The project is now split up a bit into the following modules.
+
+## core
+
+* basic text file processing and formatting
+
+## conscript
+
+* [cs][cs] command line fu, generates a runnable script for running picture show
+
+    cs softprops/picture-show
+
+## server
+
+* a simple http server for presentations
+
+After installing the conscript, you can start a show in your currect directory with
+
+    pshow
+
+## offline
+
+* writes presentations to flat html files - [@chrislewis][chrislewis]
+
+After installing the conscript runner, you can generate the static output for a show in the current director with
+
+   pshow --offline
+
+This will generate a show as static html that you can run on any server in an `out` directory relative to your current working directory
+
+
+## spec
+
+For the information how a picture show should be formatted see the project [readme][ps]
+
+You can install [giter8][g8] Template an example presentation with
+
+    g8 softprops/picture-show
+
+[chrislewis]: https://github.com/chrislewis
+[g8]: https://github.com/n8han/giter8#readme
+[cs]: http://github.com/n8han/conscript#readme
+[ps]: https://github.com/softprops/picture-show/#readme
