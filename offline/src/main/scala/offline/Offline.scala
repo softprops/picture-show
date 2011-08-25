@@ -20,7 +20,7 @@ object Offline {
   /** String => String source/target mappings for show assets. */
   def showAssetMappings(fromF: File)(toF: File) =
     Files.ls(fromF.toString)(!_.endsWith("conf.js")) map { p =>
-      p.toString -> p.toString.replaceFirst(fromF.toString, toF.toString)
+      p.toString -> p.toString.replaceFirst("\\Q%s\\E".format(fromF.toString), toF.toString)
     }
   /** Render a show as if it were being delivered over the wire. */
   def renderShow(fromF: File) =
