@@ -37,8 +37,9 @@ object Main extends Logging {
     } else if(!new java.io.File(show, "conf.js").exists) {
       Left("conf.js not found under @ `%s`." format show.toString)
     } else {
-      val js = "show" :: "jquery.min" :: Nil map { "/js/%s.js" format _ }
-      val css = "show" :: Nil map { "/css/%s.css" format _ }
+      val langs = "apollo" :: "css" :: "hs" :: "lisp" :: "lua" :: "ml" :: "proto" :: "scala" :: "sql" :: "vb" :: "vhdl" :: "wiki" :: "yaml" :: Nil map { "prettify/lang-" + _ }
+      val js = "show" :: "jquery.min" :: "prettify/prettify" :: langs map { "/js/%s.js" format _ }
+      val css = "show" :: "prettify" :: Nil map { "/css/%s.css" format _ }
       val assets = js ++ css map { p => getClass().getResource(p.format("show")) }
       Right(() => Offline(show.getAbsolutePath, assets.elements, out))
     }
