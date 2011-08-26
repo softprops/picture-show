@@ -10,7 +10,7 @@ object Offline {
     else
       Some(in)
   /** Common use. */
-  def afterPicshow(p: String) = p.split('/').reverse.take(2).reverse.mkString("/")
+  def afterPicshow(p: String) = p.split('/').reverse.takeWhile(!_.endsWith(".jar!")).reverse.mkString("/")
 
   /** URL => File source/target mappings for core assets. */
   def coreAssetMappings(parent: File)(assets: Iterator[java.net.URL]) =
