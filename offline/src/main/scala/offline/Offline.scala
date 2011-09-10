@@ -3,6 +3,11 @@ package pictureshow.offline
 object Offline {
   import java.io.File
 
+  def someFile(parent: File, name: String): Option[String] =
+    if(new File(parent, name).exists)
+      Some(name)
+    else
+      None
   /** Yield the string remaining after the last occurrence of a substring. */
   def strAfter(mark: String)(in: String) =
     if(in contains mark)
@@ -18,10 +23,13 @@ object Offline {
       u -> afterPicshow(u.toString)
     } map { case (u, t) => u -> new File(parent, "assets/" + t) }
   /** String => String source/target mappings for show assets. */
-  def showAssetMappings(fromF: File)(toF: File) =
-    Files.ls(fromF.toString)(!_.endsWith("conf.js")) map { p =>
-      p.toString -> p.toString.replaceFirst(fromF.toString, toF.toString)
+  def showAssetMappings(fromF: File)(toF: File) = {
+    val assets = (new Renderer(fromF.toURI.toURL)).sections ++ someFile(fromF, "js") ++ someFile(fromF, "css")
+    val assetPaths = assets.map(s => new File(fromF, s).getAbsolutePath)
+    assetPaths.flatMap(sp => Files.ls(sp)(_ => true)) map { p =>
+      p -> p.replaceFirst("\\Q%s\\E".format(fromF.getAbsolutePath), toF.getAbsolutePath)
     }
+  }
   /** Render a show as if it were being delivered over the wire. */
   def renderShow(fromF: File) =
     (new Renderer(fromF.toURI.toURL)).renderDefault
