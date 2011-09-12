@@ -6,7 +6,7 @@ object IO {
     InputStream,
     FileOutputStream,
     FileInputStream,
-    FileWriter
+    OutputStreamWriter
   }
   
   type Resource = { def close(): Unit }
@@ -35,7 +35,7 @@ object IO {
   }
   
   def write(file: File)(data: String): Either[Exception, Unit] = 
-    loan(new FileWriter(file)) {
+    loan(new OutputStreamWriter(new FileOutputStream(file), "UTF8")) {
       _ write(data)
     }
 }
