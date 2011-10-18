@@ -62,7 +62,7 @@ object build extends Build {
   object Deps {
     val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.5"
     val codec = "commons-codec" % "commons-codec" % "1.4"
-    val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2" % "test"
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "test"
     val uf_version = "0.5.1"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
