@@ -1,6 +1,6 @@
 package pictureshow.offline
 
-object Main extends Logging {
+object Main extends pictureshow.Logging {
   import java.io.{File => JFile}
   object Options {
     /** path to show */
@@ -41,7 +41,7 @@ object Main extends Logging {
       val js = "show" :: "jquery.min" :: "prettify/prettify" :: langs map { "/js/%s.js" format _ }
       val css = "show" :: "prettify" :: Nil map { "/css/%s.css" format _ }
       val assets = js ++ css map { p => getClass().getResource(p.format("show")) }
-      Right(() => Offline(show.getAbsolutePath, assets.elements, out))
+      Right(() => Offline(show.getAbsolutePath, assets.iterator, out))
     }
   }
 
