@@ -17,7 +17,7 @@ trait Config { self: IO with Logging =>
       def extract[T](name: String)(f: Any => T) = json flatMap { _.flatMap {
         case (k, v) if(k == name) => Some(f(v))
         case _ => None
-      }.firstOption }
+      }.headOption }
 
       json match {
         case None => error("invalid json config %s" format(contents))
