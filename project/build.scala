@@ -8,7 +8,7 @@ object build extends Build {
   lazy val standardSettings = Defaults.defaultSettings ++ Seq(
     organization := "me.lessis",
     version := "0.1.0-SNAPSHOT",
-    scalaVersion := "2.7.7",
+    scalaVersion := "2.8.1",
     libraryDependencies += knockoff
   )
 
@@ -60,10 +60,10 @@ object build extends Build {
 
 
   object Deps {
-    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.2"
+    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.5"
     val codec = "commons-codec" % "commons-codec" % "1.4"
-    val specs = "org.scala-tools.testing" % "specs" % "1.6.2.2" % "test"
-    val uf_version = "0.3.3"
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "test"
+    val uf_version = "0.5.1"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
     val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
