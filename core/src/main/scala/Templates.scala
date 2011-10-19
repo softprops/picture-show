@@ -15,7 +15,7 @@ trait Templates { self: Config =>
    * @note in scala 2.8 you don't need the last to args
    */
   def render(heads : xml.NodeBuffer, slides: xml.NodeBuffer, bodyScripts: xml.NodeBuffer) = xml.Xhtml.toXhtml(
-    default(heads, slides, bodyScripts), false, false
+    default(heads, slides, bodyScripts)
   )
   /** builds a collection of nodes */
   private def collectionOf(c: Seq[String])(f: String => xml.Node) =

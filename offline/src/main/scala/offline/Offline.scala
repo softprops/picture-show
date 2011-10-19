@@ -1,5 +1,7 @@
 package pictureshow.offline
 
+import pictureshow.{Renderer,Files}
+
 object Offline {
   import java.io.File
 
