@@ -10,7 +10,9 @@ object IO {
   }
   
   type Resource = { def close(): Unit }
-  
+
+  var utf8 = java.nio.charset.Charset.forName("utf8")
+
   def loan[R <: Resource, A](r: R)(op: R => A) =
     try {
       Right(op(r))
@@ -35,7 +37,7 @@ object IO {
   }
   
   def write(file: File)(data: String): Either[Exception, Unit] = 
-    loan(new OutputStreamWriter(new FileOutputStream(file), "UTF8")) {
+    loan(new OutputStreamWriter(new FileOutputStream(file), utf8)) {
       _ write(data)
     }
 }
