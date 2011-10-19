@@ -8,6 +8,12 @@ inspired by the likes of showoff and slide down
 
 ## usage
 
+Publish the project locally
+
+    git clone git://github.com/softprops/picture-show.git
+    cd picture-show
+    sbt publish-local
+
 Run as a [conscript](https://github.com/n8han/conscript) program
 
     cs softprops/picture-show
