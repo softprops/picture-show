@@ -1,7 +1,7 @@
 import sbt._
 import Keys._
 
-object build extends Build {
+object Build extends sbt.Build {
   
   import Deps._
 
@@ -13,15 +13,15 @@ object build extends Build {
   )
 
   lazy val root = Project(
-    id = "PictureShow",
-    base = file("."),
+    "PictureShow",
+    file("."),
     aggregate = Seq(core, server, offln, conscript)
   )
 
   /** core transformations from txt files to html slide formated html */
   lazy val core = Project(
-    id = "PictureShow Core",
-    base = file("core"), 
+    "PictureShow Core",
+    file("core"),
     settings = standardSettings ++ Seq(
       libraryDependencies ++= Seq(codec, specs) 
     )
@@ -29,35 +29,32 @@ object build extends Build {
 
   /** serves generated html on a configurable port */
   lazy val server = Project(
-    id = "PictureShow Server",
-    base = file("server"),  
+    "PictureShow Server",
+    file("server"),  
     settings = standardSettings ++ Seq(
       libraryDependencies ++= Seq(uff, ufj)
     ),
     dependencies = Seq(core)  
   )
 
-
   /** caches generated html to disk */
   lazy val offln = Project(
-    id = "PictureShow Offline",
-    base = file("offline"),
+    "PictureShow Offline",
+    file("offline"),
     settings = standardSettings,
     dependencies = Seq(core)
   )
 
-  /** command line client */
+  /** command line client, pshow */
   lazy val conscript = Project(
-    id = "PictureShow Conscript", 
-    base = file("conscript"),
+    "PictureShow Conscript", 
+    file("conscript"),
     settings = standardSettings ++ Seq(
-      resolvers += Resolver.url("technically.us", new java.net.URL("http://databinder.net/repo/"))(Resolver.ivyStylePatterns),
+      resolvers += "databinder" at "https://databinder.net/repo/",
       libraryDependencies += launch
     ),
     dependencies = Seq(core, server, offln)
   )
-
-
 
   object Deps {
     val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.5"
