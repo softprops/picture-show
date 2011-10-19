@@ -3,11 +3,11 @@ package pictureshow
 trait Markup { self: IO with Resolver with Config with Logging =>
   import pamflet.PamfletDiscounter._
   import java.net.URL
-  def asset(path: String) = path
+
   /** combine all js assets */
-  def combineJs = ("js/custom.js" :: Nil) filter exists map asset
+  def combineJs = ("js/custom.js" :: Nil) filter exists
   /** combine all css assets */
-  def combineCss = ("css/custom.css" :: Nil) filter exists map asset
+  def combineCss = ("css/custom.css" :: Nil) filter exists
   /** loads and processes all markdown from configured sections */
   def mkSlides = {
     ((new xml.NodeBuffer, 0) /: sections) ((a, s) => {

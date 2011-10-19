@@ -7,8 +7,6 @@ trait Config { self: IO with Logging =>
   def showTitle = provided.title.getOrElse("picture show")
   /** list of sections to render */
   def sections = provided.sections.getOrElse(Nil)
-  /** ??? */
-  def resourceBase = ""
 
   case class Config(title: Option[String], sections: Option[List[String]])
   private val provided = {
