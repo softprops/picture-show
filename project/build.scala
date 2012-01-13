@@ -8,14 +8,14 @@ object Build extends sbt.Build {
   lazy val standardSettings = Defaults.defaultSettings ++ Seq(
     organization := "me.lessis",
     version := "0.1.0-SNAPSHOT",
-    scalaVersion := "2.8.1",
-    libraryDependencies += knockoff
+    libraryDependencies += knockoff,
+    scalacOptions += "-deprecation"
   )
 
   lazy val root = Project(
     "PictureShow",
     file("."),
-    aggregate = Seq(core, server, offln, conscript)
+    aggregate = Seq(core, server, offln, app)
   )
 
   /** core transformations from txt files to html slide formated html */
@@ -46,23 +46,19 @@ object Build extends sbt.Build {
   )
 
   /** command line client, pshow */
-  lazy val conscript = Project(
+  lazy val app = Project(
     "PictureShow Conscript", 
     file("conscript"),
-    settings = standardSettings ++ Seq(
-      resolvers += "databinder" at "https://databinder.net/repo/",
-      libraryDependencies += launch
-    ),
+    settings = standardSettings ++ conscript.Harness.conscriptSettings,
     dependencies = Seq(core, server, offln)
   )
 
   object Deps {
-    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.2.5"
+    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.3.1"
     val codec = "commons-codec" % "commons-codec" % "1.4"
-    val specs = "org.scala-tools.testing" %% "specs" % "1.6.8" % "test"
-    val uf_version = "0.5.1"
+    val specs = "org.scala-tools.testing" %% "specs" % "1.6.9" % "test"
+    val uf_version = "0.5.3"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
-    val launch = "org.scala-tools.sbt" % "launcher-interface" % "0.7.4" % "provided"
   }
 }
