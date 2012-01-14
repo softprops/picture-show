@@ -4,9 +4,9 @@ trait Markup { self: Resolver with Config =>
   import pamflet.PamfletDiscounter._
 
   /** combine all js assets */
-  def combineJs = ("js/custom.js" :: Nil) filter exists /*IO*/
+  def combineJs = ("js/custom.js" :: Nil) filter exists
   /** combine all css assets */
-  def combineCss = ("css/custom.css" :: Nil) filter exists /*IO*/
+  def combineCss = ("css/custom.css" :: Nil) filter exists
   /** loads and processes all markdown from configured sections */
   def mkSlides = {
     ((new xml.NodeBuffer, 0) /: sections) ((a, s) => {
