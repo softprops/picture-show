@@ -1,19 +1,19 @@
 package pictureshow
 
-trait Markup { self: IO with Resolver with Config with Logging =>
+trait Markup { self: Resolver with Config =>
   import pamflet.PamfletDiscounter._
-  import java.net.URL
 
   /** combine all js assets */
-  def combineJs = ("js/custom.js" :: Nil) filter exists
+  def combineJs = ("js/custom.js" :: Nil) filter exists /*IO*/
   /** combine all css assets */
-  def combineCss = ("css/custom.css" :: Nil) filter exists
+  def combineCss = ("css/custom.css" :: Nil) filter exists /*IO*/
   /** loads and processes all markdown from configured sections */
   def mkSlides = {
     ((new xml.NodeBuffer, 0) /: sections) ((a, s) => {
-      val files = slurp("%s/%s.md" format (s, s))
-      if(files.isEmpty) log("no file(s) at path %s/%s.md" format(s, s))
-      val fileRes = (((new scala.xml.NodeBuffer, a._2)  /: files)((m, f) => {
+      // FIXME gists can't have paths with depth
+      val file = resolve("%s/%s.md" format (s, s))
+      if(file.isEmpty) log("no file(s) at path %s/%s.md" format(s, s))
+      val fileRes = (((new scala.xml.NodeBuffer, a._2) /: file)((m, f) => {
         val mdRes = parse(f, m._2)
         (m._1 &+ mdRes._1, mdRes._2)
       }))

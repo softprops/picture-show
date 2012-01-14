@@ -26,7 +26,7 @@ object Offline {
     } map { case (u, t) => u -> new File(parent, "assets/" + t) }
   /** String => String source/target mappings for show assets. */
   def showAssetMappings(fromF: File)(toF: File) = {
-    val assets = (new Renderer(fromF.toURI.toURL)).sections ++ someFile(fromF, "js") ++ someFile(fromF, "css")
+    val assets = (new Renderer(fromF.toURI)).sections ++ someFile(fromF, "js") ++ someFile(fromF, "css")
     val assetPaths = assets.map(s => new File(fromF, s).getAbsolutePath)
     assetPaths.flatMap(sp => Files.ls(sp)(_ => true)) map { p =>
       p -> p.replaceFirst("\\Q%s\\E".format(fromF.getAbsolutePath), toF.getAbsolutePath)
@@ -34,7 +34,7 @@ object Offline {
   }
   /** Render a show as if it were being delivered over the wire. */
   def renderShow(fromF: File) =
-    (new Renderer(fromF.toURI.toURL)).renderDefault
+    (new Renderer(fromF.toURI)).renderDefault
 
   /** Build an offline version of a show. */
   def apply(from: String, assets: Iterator[java.net.URL], to: String) = {

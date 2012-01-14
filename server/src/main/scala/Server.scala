@@ -40,7 +40,7 @@ object Server extends Logging {
     } else if (!new JFile(show, "conf.js").exists) {
       Left("conf.js not found under @ `%s`." format show.toString)
     } else {
-      val projector = new Projector(show.toURI.toURL)
+      val projector = new Projector(/*show.toURI*/new java.net.URI("https://gist.github.com/1289003"))
       if (projector.sections.isEmpty) {
         Left("Show content not found @ `%s`. conf.js" format show.toString)
       } else {

@@ -8,7 +8,7 @@ object Build extends sbt.Build {
   lazy val standardSettings = Defaults.defaultSettings ++ Seq(
     organization := "me.lessis",
     version := "0.1.0-SNAPSHOT",
-    libraryDependencies += knockoff,
+    libraryDependencies ++= Seq(knockoff, dispatch),
     scalacOptions += "-deprecation"
   )
 
@@ -23,7 +23,7 @@ object Build extends sbt.Build {
     "PictureShow Core",
     file("core"),
     settings = standardSettings ++ Seq(
-      libraryDependencies ++= Seq(codec, specs) 
+      libraryDependencies ++= Seq(codec, specs)
     )
   )
 
@@ -60,5 +60,6 @@ object Build extends sbt.Build {
     val uf_version = "0.5.3"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
+    val dispatch = "net.databinder" %% "dispatch-http" % "0.8.7"
   }
 }
