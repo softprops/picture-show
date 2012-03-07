@@ -151,4 +151,4 @@ I say why not. Slideshows should be relatively portable and should not require p
 * abstract resolving a show, use an abstract uri instead of coupling show to the file system
 * towards sbt 0.10 line
 
-doug tangren [softprops] 2010-11
+doug tangren [softprops] 2010-12
