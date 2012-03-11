@@ -25,6 +25,7 @@ trait Templates { self: Config =>
     <html>
       <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <meta name="viewport" content="width=800, height=600, initial-scale=1.0"></meta>
         <title>{ showTitle }</title>
         <link rel="stylesheet" type="text/css" href="assets/css/show.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/prettify.css" />
