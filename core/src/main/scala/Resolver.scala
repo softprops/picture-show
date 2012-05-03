@@ -44,7 +44,7 @@ class FileSystemResolver(uri: URI) extends Resolver {
 class Resolved(uri: URI) extends Resolver {
 
   object GistHttp {
-    val ID = """^/(\d+)""".r
+    val ID = """^/(.+)""".r
     def unapply(uri: URI) = (uri.getScheme, uri.getHost, uri.getPath) match {
       case ("https", "gist.github.com", ID(id)) => Some(id)
       case _ => None
