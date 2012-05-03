@@ -10,6 +10,33 @@ object Build extends sbt.Build {
     version := "0.1.0-SNAPSHOT",
     libraryDependencies ++= Seq(knockoff, dispatch),
     scalacOptions ++= Seq("-deprecation", "-unchecked")
+  ) ++ Seq(
+    homepage :=
+    Some(url("https://github.com/softprops/picture-show")),
+    publishMavenStyle := true,
+    publishTo <<= version { (v: String) =>
+      val nexus = "https://oss.sonatype.org/"
+      if (v.trim.endsWith("SNAPSHOT"))
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+    },
+     publishArtifact in Test := false,
+    licenses <<= (version)(v =>
+      Seq("MIT" -> url("https://github.com/softprops/tree/%s/LICENSE".format(v)))
+    ),
+    pomExtra := (
+      <scm>
+        <url>git@github.com:softprops/picture-show.git</url>
+        <connection>scm:git:git@github.com:softprops/picture-show.git</connection>
+      </scm>
+      <developers>
+        <developer>
+          <id>softprops</id>
+          <name>Doug Tangren</name>
+          <url>https://github.com/softprops</url>
+        </developer>
+      </developers>)
   )
 
   lazy val root = Project(
@@ -54,10 +81,10 @@ object Build extends sbt.Build {
   )
 
   object Deps {
-    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.3.1"
+    val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.4.0"
     val codec = "commons-codec" % "commons-codec" % "1.4"
     val specs = "org.scala-tools.testing" %% "specs" % "1.6.9" % "test"
-    val uf_version = "0.5.3"
+    val uf_version = "0.6.1"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
     val dispatch = "net.databinder" %% "dispatch-http" % "0.8.7"
