@@ -29,8 +29,9 @@ class GistHttpResolver(id: String) extends Resolver {
     case s => sys.error("unexpected response structure %s" format s)
   }
   lazy val configuration = files("conf.json")
-  def resolve(p: String) = files.get(p.split('/').last)
-  def exists(p: String) = files isDefinedAt p.split('/').last
+  def last(p: String) = p.split('/').last
+  def resolve(p: String) = files.get(last(p))
+  def exists(p: String)  = files isDefinedAt last(p)
 }
 
 class FileSystemResolver(uri: URI) extends Resolver {
