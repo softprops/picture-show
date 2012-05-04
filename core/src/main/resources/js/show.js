@@ -45,15 +45,15 @@ var show = (function(){
   };
 
   var showCurrentSlide = function() {
-    var d = dimensions();
-    var index = (show.index() || 0);
-    var offset = index * $('#slides').width();
+    var d = dimensions()
+      , index = (show.index() || 0)
+      , offset = index * $('#slides').width();
     $('#reel').animate({ marginLeft: '-' + offset + 'px' }, 200);
   };
 
   var verticalAlign = function() {
-    var d = dimensions();
-    var margin = (dimensions.height - $(this).height()) / 2;
+    var d = dimensions()
+      , margin = (dimensions.height - $(this).height()) / 2;
     $(this).css({ paddingTop: margin + 'px' });
   };
 
