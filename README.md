@@ -20,13 +20,13 @@ Run as a [conscript](https://github.com/n8han/conscript) program
 
 This will will install a program called `pshow` in your `~/bin` directory. Ensure this is your path.
 
-Once installed you can run a show that exists in the current directory with
+Once installed you can serve a picture show that exists in the current directory with
 
     pshow
 
-After validating your `conf.js`, this will host your show at `http://localhost:3000`
+After validating your `conf.js`, your presentation will be available for viewing by pointing your browser to `http://localhost:3000`
 
-To run a show on a specific show on a specific port add the `s` and or `p` parameters which represent the absolute show path and port respectively
+To service a specific show or host on a specific port add the `s` and or `p` parameters which represent the absolute show path and port respectively
 
     pshow -s=/path/to/show -p=1234
 
@@ -57,6 +57,14 @@ The directory contents of a show are expected to be in the format
         sectiona.md
       /sectionb
         sectionb.md
+
+Gisting your picture show
+
+You can also host your picture show as gist on [github](http://gist.github.com) by specficying the gist by url using the `g` flag.
+
+     pshow -g=https://gist.github.com/asdfasdf
+     
+Gists only support a flat file structure. Simply flatten the structure mentioned above and picture show will take care of the rest.
 
 
 ### conf
