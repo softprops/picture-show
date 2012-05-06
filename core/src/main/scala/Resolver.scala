@@ -28,7 +28,7 @@ class GistHttpResolver(id: String) extends Resolver {
     }
     case s => sys.error("unexpected response structure %s" format s)
   }
-  lazy val configuration = files("conf.json")
+  lazy val configuration = files("conf.js")
   def last(p: String) = p.split('/').last
   def resolve(p: String) = files.get(last(p))
   def exists(p: String)  = files isDefinedAt last(p)
@@ -36,9 +36,16 @@ class GistHttpResolver(id: String) extends Resolver {
 
 class FileSystemResolver(uri: URI) extends Resolver {
   import java.io.File
-  def configuration = IO.slurp(new java.net.URL(uri.toURL, "conf.js")).get
-  def resolve(p: String) = IO.slurp(new java.net.URL(uri.toURL, p))
-  def exists(p: String) = new File(uri.toURL.getFile, p).exists
+  import java.net.URL
+  private def file(p: String) = new File(uri.toURL.getFile, p)
+  private def url(p: String) = new URL(uri.toURL, p)
+  def configuration = IO.slurp(url("conf.js")).get
+  def resolve(p: String) =
+    if(file(p) exists) IO.slurp(url(p))
+    else IO.slurp(
+      url(p.split(File.separator).last)
+    )
+  def exists(p: String) = file(p).exists || file(p.split(File.separator).last).exists
 }
 
 // resolves local (filesystem) & remote (git/gist) shows
