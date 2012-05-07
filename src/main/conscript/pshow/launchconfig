@@ -9,5 +9,5 @@
   less:http://repo.lessis.me
   local
   maven-local
-  scala-tools-releases
+  sonatype-releases: https://oss.sonatype.org/service/local/repositories/releases/content/
   maven-central
