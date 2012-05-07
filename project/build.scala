@@ -7,7 +7,7 @@ object Build extends sbt.Build {
 
   lazy val standardSettings = Defaults.defaultSettings ++ Seq(
     organization := "me.lessis",
-    version := "0.1.0-SNAPSHOT",
+    version := "0.1.0",
     libraryDependencies ++= Seq(knockoff, dispatch),
     scalacOptions ++= Seq("-deprecation", "-unchecked")
   ) ++ Seq(

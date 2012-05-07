@@ -1,5 +1,5 @@
 [app]
-  version: 0.1.0-SNAPSHOT
+  version: 0.1.0
   org: me.lessis
   name: pictureshow-conscript
   class: pictureshow.PictureShowScript
