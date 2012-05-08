@@ -1,43 +1,40 @@
 # picture show
 
-make slideshows with markdown
+make slideshows with markdown text.
 
-inspired by the likes of showoff and slide down
+requirements:
 
-(still a bit rough around the edges)
+- a text editor
+- [conscript][cs]
 
-## usage
+## Install
 
-Publish the project locally
-
-    git clone git://github.com/softprops/picture-show.git
-    cd picture-show
-    sbt publish-local
-
-Run as a [conscript](https://github.com/n8han/conscript) program
+Run as a [conscript][cs] program
 
     cs softprops/picture-show
 
 This will will install a program called `pshow` in your `~/bin` directory. Ensure this is your path.
 
+## Usage
+
 Once installed you can serve a picture show that exists in the current directory with
 
     pshow
 
-After validating your `conf.js`, your presentation will be available for viewing by pointing your browser to `http://localhost:3000`
+After validating a file called `conf.js` at the root of your presentation, your slides will be available for viewing by pointing your browser to `http://localhost:3000`
 
-To service a specific show or host on a specific port add the `s` and or `p` parameters which represent the absolute show path and port respectively
+To service a specific show or host on a specific port use the `s` and or `p` command line flags which represent the absolute show path and port respectively
 
     pshow -s=/path/to/show -p=1234
 
-This will run your show located at `/path/to/show` at `http://localhost:1234`
+This will serve your show located at `/path/to/show` at `http://localhost:1234`
 
 Show path resolution can default to a target directory specified in an environment variable called `SHOW_HOME`
 
     export SHOW_HOME=/path/to
     pshow -s=show
 
-This will run your show located at `/path/to/show` at `http://localhost:3000`
+This will serve your show located at `/path/to/show` at `http://localhost:3000`
 
 On the go? You can export a show as a static html file that can run anywhere. Just add the flag `offline`
 
@@ -64,10 +61,10 @@ You can also host your picture show as gist on [github](http://gist.github.com) 
 
      pshow -g=https://gist.github.com/asdfasdf
      
-Gists only support a flat file structure. Simply flatten the structure mentioned above and picture show will take care of the rest.
+Gists only support a flat file structure. Simply flatten the structure described above and picture show will take care of the rest.
 
 
-### conf
+### conf-iguration
 
 Shows are configurable through a `conf.js` file. This file should be in json
 format should include a sections key with an array of section names to render and an optional title. From the example above
@@ -106,7 +103,7 @@ The example below generates 3 slides.
 
     three
 
-Slide content is by default expected in the form of markdown which will be transformed into html.
+Slide content is, by default, expected in the form of markdown which will be transformed into html.
 
 You can also embed images. It's recommended to place them under the section directory of the same markdown file and to use a relative path.
 
@@ -126,7 +123,7 @@ In `sectiona.md`, you'll want to reference `foo.jpg` as
 
 #### js and css
 
-You can customize your show with css and javascript but adding a `css/custom.css` or `js/custom.js` /yourshow directory. The content will then be added to the shows header.
+You can customize your show with css and javascript by adding a `css/custom.css` or `js/custom.js` /yourshow directory. The content will then be added to the shows header.
 
 #### files
 
@@ -156,7 +153,7 @@ I say why not. Slideshows should be relatively portable and should not require p
 
 * use a grownup command line parser of options. possibly [scopt](https://github.com/jstrachan/scopt)
 * supported exporting a show to pdf
-* abstract resolving a show, use an abstract uri instead of coupling show to the file system
-* towards sbt 0.10 line
 
 doug tangren [softprops] 2010-12
+
+[cs]: https://github.com/n8han/conscript#readme
