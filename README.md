@@ -38,13 +38,13 @@ This will serve your show located at `/path/to/show` at `http://localhost:3000`
 
 On the go? You can export a show as a static html file that can run anywhere. Just add the flag `offline`
 
-     pshow --offline
+    pshow --offline
 
 This will generate the static contents of your show in a directory relative to your current one called `out`
 
 To out the produced files to a target directory, add the `o` flag
 
-   pshow --offline -o=/path/to/output
+    pshow --offline -o=/path/to/output
 
 The directory contents of a show are expected to be in the format
 
