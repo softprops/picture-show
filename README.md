@@ -154,6 +154,11 @@ I say why not. Slideshows should be relatively portable and should not require p
 * use a grownup command line parser of options. possibly [scopt](https://github.com/jstrachan/scopt)
 * supported exporting a show to pdf
 
+## issues/suggestions
+
+I'll take them [here][issues].
+
 doug tangren [softprops] 2010-12
 
 [cs]: https://github.com/n8han/conscript#readme
+[issues]: https://github.com/softprops/picture-show/issues
