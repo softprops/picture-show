@@ -11,7 +11,6 @@ trait Resolver {
 }
 
 class GistGitResolver(uri: URI) extends Resolver {
-  
   lazy val configuration = "todo"
   def resolve(p: String) = Some("todo")
   def exists(p: String) = false
@@ -29,23 +28,25 @@ class GistHttpResolver(id: String) extends Resolver {
     case s => sys.error("unexpected response structure %s" format s)
   }
   lazy val configuration = files("conf.js")
-  def last(p: String) = p.split('/').last
-  def resolve(p: String) = files.get(last(p))
-  def exists(p: String)  = files isDefinedAt last(p)
+  def lastSeg(p: String) = p.split('/').last
+  def resolve(p: String) = files.get(lastSeg(p))
+  def exists(p: String)  = files isDefinedAt lastSeg(p)
 }
 
 class FileSystemResolver(uri: URI) extends Resolver {
   import java.io.File
   import java.net.URL
+  import java.util.regex.Pattern
   private def file(p: String) = new File(uri.toURL.getFile, p)
   private def url(p: String) = new URL(uri.toURL, p)
+  privte def lastSeg(p: String) = p.split(Pattern.quote(File.separator)).last
   def configuration = IO.slurp(url("conf.js")).get
   def resolve(p: String) =
     if(file(p) exists) IO.slurp(url(p))
     else IO.slurp(
-      url(p.split(File.separator).last)
+      url(lastSeg(p))
     )
-  def exists(p: String) = file(p).exists || file(p.split(File.separator).last).exists
+  def exists(p: String) = file(p).exists || file(lastSeg(p)).exists
 }
 
 // resolves local (filesystem) & remote (git/gist) shows
