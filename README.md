@@ -72,7 +72,7 @@ format should include a sections key with an array of section names to render an
 
     > cat conf.js
     {
-      "title": "some show title"
+      "title": "some show title",
       "sections": [
         "sectiona",
         "sectionb"
