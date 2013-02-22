@@ -15,7 +15,14 @@ body {
   overflow: hidden;
 }
 #slides .content .container {
-   padding:.5em;
+  padding:.5em;
+  height:80%;
+}
+#slides .content .subtitle {
+  padding:.5em;
+  background:#000;
+  color:#fff;
+  width: 100%;
 }
 #reel {
   width: 1000000px;
