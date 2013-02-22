@@ -39,7 +39,7 @@ class FileSystemResolver(uri: URI) extends Resolver {
   import java.util.regex.Pattern
   private def file(p: String) = new File(uri.toURL.getFile, p)
   private def url(p: String) = new URL(uri.toURL, p)
-  privte def lastSeg(p: String) = p.split(Pattern.quote(File.separator)).last
+  private def lastSeg(p: String) = p.split(Pattern.quote(File.separator)).last
   def configuration = IO.slurp(url("conf.js")).get
   def resolve(p: String) =
     if(file(p) exists) IO.slurp(url(p))

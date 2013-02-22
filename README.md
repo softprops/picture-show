@@ -119,6 +119,16 @@ In `sectiona.md`, you'll want to reference `foo.jpg` as
 
      ![foo](sectiona/foo.jpg)
 
+### subtitles
+
+Here's how you can add subtitles to a slide.
+
+    !SLIDE
+
+    ハロー!
+
+    #SUB Hello!
+
 ### assets
 
 #### js and css

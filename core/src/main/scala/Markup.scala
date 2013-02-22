@@ -27,15 +27,29 @@ trait Markup { self: Resolver with Config =>
     val slides = content.split("(?m)^!SLIDE")
     if(slides.isEmpty) log("no slides within file %s at index %s" format(content, index))
     ((new xml.NodeBuffer, index) /: slides.drop(1))( (a, s) => {
-      (a._1 &+ (<div class="content" id={"slide-%s" format a._2}>
-       <div class="container">{
-         s.split("\n")(0).trim match {
-            case Meta(meta) => {
-              <div>{ xml.PCData( s.split("\n").toList.drop(1).mkString("") ) }</div>
-            }
-            case _ => parseMarkdown(s)
+      (a._1 &+ (<div class="content" id={"slide-%s" format a._2}>{
+        val lines = s.lines.toList
+        lines.head.trim match {
+          case Meta(meta) => {
+            <div class="container">
+              <div>{ xml.PCData( lines.drop(1).mkString("") ) }</div>
+            </div>
           }
-        }</div>
+          case _ =>
+            lines.partition(_.startsWith("#SUB ")) match {
+              case (Nil, nonsubs) =>
+                <div class="container">
+                  {parseMarkdown(nonsubs.mkString("\n"))}
+                </div>
+              case (subs, nonsubs) =>
+                <div class="container">
+                  {parseMarkdown(nonsubs.mkString("\n"))}
+                </div>
+                <div class="subtitle">
+                  {parseMarkdown(subs.map(_.drop(5)).mkString("\n"))}
+                </div>
+            }
+        }}
       </div>), a._2 + 1)
     })
   }

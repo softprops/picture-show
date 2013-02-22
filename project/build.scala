@@ -47,7 +47,7 @@ object Build extends sbt.Build {
 
   /** core transformations from txt files to html slide formated html */
   lazy val core = Project(
-    "PictureShow Core",
+    "PictureShow_Core",
     file("core"),
     settings = standardSettings ++ Seq(
       libraryDependencies ++= Seq(codec, specs)
@@ -56,7 +56,7 @@ object Build extends sbt.Build {
 
   /** serves generated html on a configurable port */
   lazy val server = Project(
-    "PictureShow Server",
+    "PictureShow_Server",
     file("server"),  
     settings = standardSettings ++ Seq(
       libraryDependencies ++= Seq(uff, ufj)
@@ -66,7 +66,7 @@ object Build extends sbt.Build {
 
   /** caches generated html to disk */
   lazy val offln = Project(
-    "PictureShow Offline",
+    "PictureShow_Offline",
     file("offline"),
     settings = standardSettings,
     dependencies = Seq(core)
@@ -74,7 +74,7 @@ object Build extends sbt.Build {
 
   /** command line client, pshow */
   lazy val app = Project(
-    "PictureShow Conscript", 
+    "PictureShow_Conscript", 
     file("conscript"),
     settings = standardSettings ++ conscript.Harness.conscriptSettings,
     dependencies = Seq(core, server, offln)
