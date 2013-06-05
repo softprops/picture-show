@@ -5,3 +5,8 @@
 ## features
 
 -  [subtitle support](https://github.com/softprops/picture-show/#subtitles) added by [@eed3si9n](https://github.com/eed3si9n/)
+
+
+Update with conscript
+
+    cs softprops/picture-show
