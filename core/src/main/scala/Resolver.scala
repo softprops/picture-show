@@ -1,8 +1,9 @@
 package pictureshow
 
 import java.net.URI
-import scala.util.parsing.json.JSON
 import dispatch._
+import org.json4s._
+import org.json4s.native.JsonMethods._
 
 trait Resolver {
   def configuration: String
@@ -17,16 +18,15 @@ class GistGitResolver(uri: URI) extends Resolver {
 }
 
 class GistHttpResolver(id: String) extends Resolver {
-  private def gist = Http(:/("api.github.com").secure / "gists" / id as_str)
-  private lazy val files: Map[String, String] = JSON.parseFull(gist).get match {
-    case g: Map[String, Any] => g("files") match {
-      case fs: Map[String, Any] => fs.map {
-        case (k, meta: Map[String, String]) =>
-          (k, meta("content"))
-      }
-    }
-    case s => sys.error("unexpected response structure %s" format s)
-  }
+  def gh = :/("api.github.com").secure <:< Map("User-Agent"->"picture-show/0.1.0") 
+  private lazy val files: Map[String, String] = 
+    (for {
+      JObject(fs) <- Http(gh / "gists" / id > as.json4s.Json)()
+      ("files", JObject(files)) <- fs
+      (name, JObject(data)) <- files
+      ("content", JString(content)) <- data
+    } yield (name, content)).toMap
+
   lazy val configuration = files("conf.js")
   def lastSeg(p: String) = p.split('/').last
   def resolve(p: String) = files.get(lastSeg(p))
@@ -39,7 +39,7 @@ class FileSystemResolver(uri: URI) extends Resolver {
   import java.util.regex.Pattern
   private def file(p: String) = new File(uri.toURL.getFile, p)
   private def url(p: String) = new URL(uri.toURL, p)
-  privte def lastSeg(p: String) = p.split(Pattern.quote(File.separator)).last
+  private def lastSeg(p: String) = p.split(Pattern.quote(File.separator)).last
   def configuration = IO.slurp(url("conf.js")).get
   def resolve(p: String) =
     if(file(p) exists) IO.slurp(url(p))
