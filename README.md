@@ -72,7 +72,7 @@ format should include a sections key with an array of section names to render an
 
     > cat conf.js
     {
-      "title": "some show title"
+      "title": "some show title",
       "sections": [
         "sectiona",
         "sectionb"
@@ -118,6 +118,16 @@ If you have a project with includes a `sectiona` section with a `foo.jpg` file
 In `sectiona.md`, you'll want to reference `foo.jpg` as
 
      ![foo](sectiona/foo.jpg)
+
+### subtitles
+
+Here's how you can add subtitles to a slide.
+
+    !SLIDE
+
+    ハロー!
+
+    #SUB Hello!
 
 ### assets
 
