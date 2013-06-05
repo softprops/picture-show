@@ -7,7 +7,7 @@ object Build extends sbt.Build {
 
   lazy val standardSettings = Defaults.defaultSettings ++ Seq(
     organization := "me.lessis",
-    version := "0.1.1-SNAPSHOT",
+    version := "0.1.1",
     scalaVersion := "2.9.2", //  knockoff not published for anything greater
     libraryDependencies ++= Seq(knockoff, dispatch),
     scalacOptions ++= Seq("-deprecation", "-unchecked")
@@ -87,7 +87,7 @@ object Build extends sbt.Build {
     val knockoff = "net.databinder" %% "pamflet-knockoff" % "0.4.2"
     val codec = "commons-codec" % "commons-codec" % "1.4"
     val specs = "org.scala-tools.testing" %% "specs" % "1.6.9" % "test"
-    val uf_version = "0.6.8"
+    val uf_version = "0.6.1"
     val uff = "net.databinder" %% "unfiltered-filter" % uf_version
     val ufj = "net.databinder" %% "unfiltered-jetty" % uf_version
     val dispatch = "net.databinder.dispatch" %% "json4s-native" % "0.9.4"

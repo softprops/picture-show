@@ -19,13 +19,14 @@ class GistGitResolver(uri: URI) extends Resolver {
 
 class GistHttpResolver(id: String) extends Resolver {
   def gh = :/("api.github.com").secure <:< Map("User-Agent"->"picture-show/0.1.0") 
-  private lazy val files: Map[String, String] = 
+  private lazy val files: Map[String, String] = {
     (for {
       JObject(fs) <- Http(gh / "gists" / id > as.json4s.Json)()
       ("files", JObject(files)) <- fs
       (name, JObject(data)) <- files
       ("content", JString(content)) <- data
     } yield (name, content)).toMap
+  }
 
   lazy val configuration = files("conf.js")
   def lastSeg(p: String) = p.split('/').last
@@ -53,9 +54,9 @@ class FileSystemResolver(uri: URI) extends Resolver {
 class Resolved(uri: URI) extends Resolver {
 
   object GistHttp {
-    val ID = """^/(.+)""".r
+    val ID = """^(.+)/(.+)""".r
     def unapply(uri: URI) = (uri.getScheme, uri.getHost, uri.getPath) match {
-      case ("https", "gist.github.com", ID(id)) => Some(id)
+      case ("https", "gist.github.com", ID(_, id)) => Some(id)
       case _ => None
     }
   }

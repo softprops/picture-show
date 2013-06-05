@@ -1,5 +1,11 @@
 package pictureshow
 
+object Main extends PictureShowScript {
+  def main(args: Array[String]) {
+    startShow(args)
+  }
+}
+
 class PictureShowScript extends xsbti.AppMain {
 
   /**
@@ -24,10 +30,10 @@ class PictureShowScript extends xsbti.AppMain {
 
   case class Exit(val code: Int) extends xsbti.Exit
 
-  def run(config: xsbti.AppConfiguration) = {
-    Options(config.arguments) match {
+  def startShow(args: Array[String]) =
+    Options(args) match {
       case Options.Server =>
-        Server.instance(config.arguments).fold({ errs =>
+        Server.instance(args).fold({ errs =>
           println(errs)
           Exit(1)
         }, { svr =>
@@ -39,7 +45,7 @@ class PictureShowScript extends xsbti.AppMain {
           Exit(0)
         })
       case Options.Offline =>
-        offline.Main.instance(config.arguments).fold({ errs =>
+        offline.Main.instance(args).fold({ errs =>
           println(errs)
           Exit(1)
         }, { ol =>
@@ -47,5 +53,7 @@ class PictureShowScript extends xsbti.AppMain {
           Exit(0)
         })
     }
-  }
+
+  def run(config: xsbti.AppConfiguration) =
+    startShow(config.arguments)
 }

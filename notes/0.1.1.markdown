@@ -1,0 +1,7 @@
+## fixes
+
+- fixed broken github gist support
+
+## features
+
+-  [subtitle support](https://github.com/softprops/picture-show/#subtitles) added by [@eed3si9n](https://github.com/eed3si9n/)
