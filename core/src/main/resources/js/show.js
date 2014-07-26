@@ -31,6 +31,14 @@ var show = (function(){
     }
   }
 
+  var touchMove = function(e) {
+    if (e.originalEvent.changedTouches[0].pageX < ($(window).width() / 2)) {
+      move('left');
+    } else {
+      move('right');
+    }
+  }
+
   var dimensions = function() {
     return {
       width: $(window).width(),
@@ -73,6 +81,8 @@ var show = (function(){
    $(document).bind('keydown', move);
 
    $(document).bind("click", clickMove);
+
+   $(document).bind("touchend", touchMove);
 
    return {
       slides: function() {
